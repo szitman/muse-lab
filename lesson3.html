@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>高级篇 · Muse 实操实验室</title>
+<style>
+  :root{
+    --blue:#2f5aa6; --blue-dark:#23406e; --ink:#1a1a1a; --grey:#5a6472;
+    --red:#b3372e; --green:#1e7d32; --bg:#f4f7fc; --card:#ffffff;
+    --line:#d8e1f0; --soft:#eef3fb; --amber:#9a6a00; --amber-bg:#fdf3e0;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+       background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 14px 48px;}
+  section{scroll-margin-top:76px;}
+
+  header.hero{background:linear-gradient(135deg,#23406e 0%,#16294a 100%);color:#fff;padding:28px 0 22px;}
+  header.hero .wrap{padding-bottom:0;}
+  header.hero h1{margin:0 0 4px;font-size:27px;letter-spacing:.5px;}
+  header.hero .sub{opacity:.92;font-size:15px;margin:0 0 4px;}
+  header.hero a{color:#cfe1ff;}
+  .notice{background:#fff4f2;border-bottom:2px solid var(--red);color:#6d1f19;padding:10px 0;font-size:14.5px;}
+  .notice .wrap{padding-bottom:0;}
+  .notice b{color:var(--red);}
+
+  nav.chips{position:sticky;top:0;z-index:50;background:rgba(244,247,252,.96);
+    border-bottom:1px solid var(--line);padding:8px 0;}
+  nav.chips .wrap{padding-bottom:0;display:flex;gap:8px;overflow-x:auto;white-space:nowrap;}
+  nav.chips a{flex:0 0 auto;text-decoration:none;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14.5px;min-height:40px;
+    display:inline-flex;align-items:center;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:18px 18px 16px;margin-top:18px;box-shadow:0 1px 3px rgba(35,64,110,.06);}
+  .card h2{margin:0 0 6px;font-size:21px;color:var(--blue-dark);}
+  .card h3{margin:16px 0 6px;font-size:17px;color:var(--blue-dark);}
+  .card p{margin:6px 0;}
+  .muted{color:var(--grey);font-size:14.5px;}
+  ul.tight{margin:6px 0;padding-left:20px;}
+  ul.tight li{margin:3px 0;}
+  .mod-badge{display:inline-block;font-size:12.5px;padding:2px 10px;border-radius:999px;vertical-align:middle;margin-left:8px;}
+  .badge-done{background:#e3f2e5;color:var(--green);border:1px solid #bfe0c4;}
+  .badge-todo{background:var(--soft);color:var(--blue-dark);border:1px solid var(--line);}
+  .quote{background:var(--soft);border-radius:10px;padding:12px 14px;margin:10px 0;font-size:15.5px;}
+
+  .btn{appearance:none;border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:10px;
+    padding:11px 18px;font-size:15.5px;min-height:48px;cursor:pointer;font-family:inherit;}
+  .btn:active{opacity:.85;}
+  .btn.ghost{background:#fff;color:var(--blue-dark);}
+  .btn.small{min-height:42px;padding:7px 14px;font-size:14.5px;}
+  .btn:disabled{opacity:.45;cursor:default;}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+  .real-app{background:var(--soft);border:1px solid var(--line);border-left:5px solid var(--blue);
+    border-radius:10px;padding:12px 14px;margin-top:16px;font-size:15px;}
+  .real-app b{color:var(--blue-dark);}
+  .done-banner{display:none;background:#e3f2e5;border:1px solid #bfe0c4;color:var(--green);
+    border-radius:12px;padding:12px 14px;margin-top:14px;font-size:15.5px;}
+  .done-banner.show{display:block;}
+
+  /* 任务链步进 */
+  .chain-steps{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+  .chain-step{flex:1 1 100px;border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;font-size:14px;
+    color:var(--grey);background:#fff;text-align:center;}
+  .chain-step.active{border-color:var(--blue);color:var(--blue-dark);background:var(--soft);font-weight:700;}
+  .chain-step.done{border-color:var(--green);color:var(--green);background:#e3f2e5;}
+  .stage-box{background:#0f1c33;color:#dbe7ff;border-radius:12px;padding:14px 16px;margin-top:12px;min-height:120px;font-size:15.5px;}
+  .stage-box .st{color:#8fb4ff;font-weight:700;display:block;margin-bottom:6px;}
+  .stage-box .mail{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:10px 12px;margin:8px 0;}
+  .stage-box .verify{color:#ffd98a;font-size:14.5px;display:block;margin-top:8px;}
+
+  /* 生成器 */
+  .tpl-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+  @media (max-width:640px){.tpl-grid{grid-template-columns:1fr;}}
+  .tpl-grid label{font-size:14px;color:var(--grey);display:block;}
+  .tpl-grid input,.tpl-grid select{width:100%;font-size:16px;padding:10px;border:1px solid var(--line);border-radius:10px;
+    min-height:48px;font-family:inherit;margin-top:4px;background:#fff;}
+  .output{background:#0f1c33;color:#dbe7ff;border-radius:12px;padding:12px 14px;margin-top:12px;font-size:15.5px;min-height:52px;}
+  .chip-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .chip{border:1px dashed var(--blue);background:#fff;color:var(--blue-dark);border-radius:999px;
+    padding:9px 14px;font-size:14.5px;min-height:44px;cursor:pointer;font-family:inherit;}
+
+  /* 清单 */
+  .check-item{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;
+    padding:12px 14px;margin-top:10px;background:#fff;cursor:pointer;}
+  .check-item input{width:22px;height:22px;margin-top:2px;flex:0 0 auto;accent-color:var(--blue);}
+  .check-item.done{background:var(--soft);}
+  .check-item .t{font-size:15.5px;}
+  .progress-outer{background:var(--soft);border:1px solid var(--line);border-radius:999px;height:16px;overflow:hidden;margin-top:8px;}
+  .progress-inner{background:var(--green);height:100%;width:0%;transition:width .5s;}
+  .case{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:10px;}
+  .case b{color:var(--blue-dark);}
+  .case .check{color:var(--blue-dark);font-size:14.5px;}
+
+  /* FAQ */
+  details.faq{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:10px;background:#fff;}
+  details.faq summary{cursor:pointer;font-weight:700;color:var(--blue-dark);font-size:16px;min-height:32px;}
+  details.faq p{margin:8px 0 2px;font-size:15.5px;}
+
+  .final-row{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-top:8px;background:#fff;font-size:15.5px;}
+  .final-row .st-ic{flex:0 0 auto;font-size:18px;}
+  .final-row a{margin-left:auto;flex:0 0 auto;}
+
+  footer{margin-top:26px;background:#fff;border-top:2px solid var(--red);}
+  footer .wrap{padding-top:14px;padding-bottom:26px;}
+  footer .redline{color:var(--red);font-weight:700;}
+  footer p{margin:5px 0;font-size:14.5px;color:var(--grey);}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>高级篇 · 让它自己干活</h1>
+    <p class="sub">Muse 实操实验室 · 第四阶段：从"派一件活"升级到"交代一次，它天天干"。</p>
+    <p class="sub"><a href="index.html">← 回课程首页</a> · <a href="lesson2.html">← 第二课（进阶）</a></p>
+  </div>
+</header>
+
+<div class="notice">
+  <div class="wrap">⚠️ <b>本页同样是教学模拟。</b>演示里的邮件、日历、提醒都是假的练手材料，不连接你的真实账号。练完回<b>自己手机上的真 App</b> 里做一遍，才算真学会。<b>切勿输入真实密码等敏感信息。</b></div>
+</div>
+
+<nav class="chips">
+  <div class="wrap">
+    <a href="#m3">③ 多步任务链</a>
+    <a href="#m4">④ 自动化诊所</a>
+    <a href="#m5">⑤ 作业 2.0 与答疑</a>
+    <a href="#final">🎓 结业自查</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ================= 模块三：多步任务链 ================= -->
+<section id="m3" class="card">
+  <h2>③ 多步任务链<span class="mod-badge badge-todo" data-badge="m3">未完成</span></h2>
+  <p>聊天 AI 只能做一步；这个助手能把一件事<b>串成链</b>：一步的输出，是下一步的输入。下面用一句真实派活，步进走完整个过程——点「下一步」，看它每一步做了什么、你在哪验收。</p>
+  <div class="quote">派活原话："看看我这周有没有学校发来的、带截止日期的邮件。有的话：把事项和日期提取出来，在我日历上建好事件，提前一天提醒我，最后把处理结果汇总成一条发我。"</div>
+  <p class="muted">派多步任务的诀窍：<b>把验收点写进指令</b>（比如"建完日历把事件标题报给我核对"）——它汇报，你抽查，链条才可靠。</p>
+
+  <div class="chain-steps" id="chainSteps">
+    <div class="chain-step" data-step="0">1 · 读邮件</div>
+    <div class="chain-step" data-step="1">2 · 提取</div>
+    <div class="chain-step" data-step="2">3 · 建日历</div>
+    <div class="chain-step" data-step="3">4 · 设提醒</div>
+    <div class="chain-step" data-step="4">5 · 汇报</div>
+  </div>
+  <div class="stage-box" id="chainStage"><span class="st">等待开始</span>点下面的「开始执行」，一步步看这条链怎么跑完。</div>
+  <div class="btn-row">
+    <button class="btn" id="chainNext">▶ 开始执行</button>
+    <button class="btn ghost" id="chainReset">↺ 重看一遍</button>
+  </div>
+  <div class="done-banner" id="m3Done">✅ 任务链走完：读 → 提取 → 建 → 提醒 → 汇报，五步环环相扣。记住每步的验收点在哪——日历里看事件、Upcoming 里看提醒、Activity 里看全程记录。</div>
+  <div class="real-app"><b>📱 回真 App 跟做：</b>用你自己邮箱里一封真实邮件跑一条短链（读 → 提取一个日期 → 建日历或设一个提醒），然后去日历和 Upcoming 里核对结果对不对。出错先查<b>点头像 → Activity</b>：哪一步做的、什么时候做的，全有记录。</div>
+</section>
+
+<!-- ================= 模块四：自动化诊所 ================= -->
+<section id="m4" class="card">
+  <h2>④ 自动化诊所<span class="mod-badge badge-todo" data-badge="m4">未完成</span></h2>
+  <p>把你每周都要重复做的一件事，改造成一个<b>定时任务</b>：交代一次，到点自己跑。合格的任务措辞有固定骨架——下面填空就能拼出来。</p>
+  <div class="chip-row">
+    <span class="muted" style="align-self:center;">先套个现成的：</span>
+    <button class="chip" data-preset="mail">📧 每晚邮件汇总</button>
+    <button class="chip" data-preset="flyer">🥬 每周四 flyer 比价</button>
+    <button class="chip" data-preset="family">🏠 每周日晚家庭周报</button>
+  </div>
+  <div class="tpl-grid">
+    <label>多久跑一次<select id="aFreq"><option>每天</option><option>每周一</option><option selected>每周四</option><option>每周日</option></select></label>
+    <label>什么时间<select id="aTime"><option>早上 8 点</option><option selected>晚上 8 点</option><option>晚上 9 点</option></select></label>
+    <label style="grid-column:1/-1;">做什么（把任务写具体）<input type="text" id="aTask" value="查两家超市本周 flyer 里鸡蛋、牛奶的价格，和上周比"></label>
+    <label>结果怎么发<select id="aResult"><option selected>汇总成一条消息发我</option><option>整理成文档发我</option></select></label>
+    <label>没有变化时<select id="aNochg"><option selected>就不用发</option><option>照样发我</option></select></label>
+    <label style="grid-column:1/-1;">涉及什么必须先问我<input type="text" id="aAsk" value="付款和对外发消息"></label>
+  </div>
+  <div class="btn-row"><button class="btn" id="aGen">✨ 生成任务措辞</button></div>
+  <div class="output" id="aOut">点「生成任务措辞」，这里会出现一整句可以直接粘贴到 Muse 的话。</div>
+  <div class="btn-row"><button class="btn ghost small" id="aCopy">📋 复制这句</button></div>
+
+  <h3>互审清单（给别人挑毛病，也给自己把关）</h3>
+  <div id="auditList">
+    <label class="check-item"><input type="checkbox" data-k="u1"><span class="t"><b>权限没放大</b>：能只读完成的任务，没给它写和发的权限</span></label>
+    <label class="check-item"><input type="checkbox" data-k="u2"><span class="t"><b>没变化就静默</b>：措辞里写了"没有变化就不用发"，不会天天打扰</span></label>
+    <label class="check-item"><input type="checkbox" data-k="u3"><span class="t"><b>找得到、关得掉</b>：知道去 Upcoming 里能看到这个任务、随时能删</span></label>
+  </div>
+  <div class="done-banner" id="m4Done">✅ 你的第一条定时任务措辞已经成型，互审也过了。把它粘贴到真 App 里发给 Muse，它就会躺进你的 Upcoming，到点自己跑。</div>
+  <div class="real-app"><b>📱 回真 App 跟做：</b>把生成的措辞原样发给 Muse；发完去<b>点头像 → Upcoming</b> 确认任务真的在那里。想改频率、想停掉，都在 Upcoming 里操作。</div>
+</section>
+
+<!-- ================= 模块五：作业 2.0 与答疑 ================= -->
+<section id="m5" class="card">
+  <h2>⑤ 作业 2.0 与答疑<span class="mod-badge badge-todo" data-badge="m5">未完成</span></h2>
+  <p><b>必做一项（人人交）＋ 五选二</b>，一周内完成，截图发微信群（账号邮箱记得打码）。</p>
+
+  <h3>★ 必做 · 权限审计（在你自己的真 App 里做，做完逐项勾）</h3>
+  <div id="auditHw">
+    <label class="check-item"><input type="checkbox" data-k="h1"><span class="t">Settings → Connectors → 逐个账号看过权限树：<b>发送类 = Ask 或 Deny</b>，读类才 Allow</span></label>
+    <label class="check-item"><input type="checkbox" data-k="h2"><span class="t">检查过 <b>Background sync</b>：哪些账号在后台开着，不需要的已关掉</span></label>
+    <label class="check-item"><input type="checkbox" data-k="h3"><span class="t">检查过 <b>Recipient 权限</b>：不再需要的旧放行已撤销</span></label>
+    <label class="check-item"><input type="checkbox" data-k="h4"><span class="t">浏览器权限确认过：提交表单、填密码 = <b>Ask</b>；<b>Notifications = 开</b></span></label>
+  </div>
+  <div class="progress-outer"><div class="progress-inner" id="hwProgress"></div></div>
+  <p class="muted" id="hwProgressTxt">审计完成 0 / 4 · 交作业时附审计前、审计后各一张 Permissions 截图</p>
+  <div class="done-banner" id="m5Done">✅ 权限审计四项全做完——这是从"会用"到"敢用"的分水岭。会审计的人，才敢放手让它干活。</div>
+
+  <h3>五选二（第一次课五个案例的升级版）</h3>
+  <div class="case"><b>作业一 · 买菜比价官 2.0</b>：从"问一次"到"盯一周"。让它每周四查两家 flyer 的常买品，和上周比，降价才发你。<p class="check">✅ 验收：连续两周，要么收到一次"只报变化"的消息，要么确认它安静地没打扰你。</p></div>
+  <div class="case"><b>作业二 · 邮件秘书 2.0</b>：双账号分开汇总。私人邮箱、生意邮箱每晚分别列，学校/银行/政府的优先，广告跳过。<p class="check">✅ 验收：一周内自查两晚，拿汇总和原邮箱对照，重要邮件零漏报。</p></div>
+  <div class="case"><b>作业三 · 英语跟读教练 2.0</b>：继续每天 3 句慢速录音，换工作场景；每周五让它出 5 道小题考你，错题下周重复。<p class="check">✅ 验收：交一次周五自测的成绩截图。</p></div>
+  <div class="case"><b>作业四 · 家庭指挥中心</b>：家庭事项全建日历并分级提醒（重要提前两天，一般提前一天），每周日晚汇总下周安排。<p class="check">✅ 验收：周日收到第一份"下周清单"，日历里事项、提醒对得上。</p></div>
+  <div class="case"><b>作业五 · 记忆大扫除</b>：让它自述全部记忆，逐条核对：改至少 3 处、删至少 1 条；老 AI 用得多的，再试 Import memory。<p class="check">✅ 验收：交"自述清单"截图，标出改了哪几处、删了哪条。</p></div>
+
+  <h3>常见问题（答疑）</h3>
+  <details class="faq"><summary>它记错东西、越记越乱怎么办？</summary><p>记忆体检就是干这个的：让它自述、逐条改。实在太乱，先去 Settings → Data controls 把数据 Download 导出备份，再 Reset 重新教——Reset 是核按钮，慎用。</p></details>
+  <details class="faq"><summary>定时任务半夜吵我怎么办？</summary><p>两个办法：任务措辞里写清发送时段（比如"早上 8 点后再发"）；手机系统本身也可以给 App 设勿扰时段。另外，好任务都该写"没有变化就不用发"。</p></details>
+  <details class="faq"><summary>我有两个邮箱（私人＋生意），能分开吗？</summary><p>可以。同类账号能接多个，各自有独立的权限和默认账号，互不串台——邮件秘书 2.0 作业就是练这个。</p></details>
+  <details class="faq"><summary>它做的事，我怎么知道对不对？</summary><p>三件套：① 派活时把验收点写进指令；② 事后看点头像里的 Activity，全程有记录；③ 涉及钱、日期、政策，让它给原文出处——给不出来源，就别当真。</p></details>
+</section>
+
+<!-- ================= 结业自查 ================= -->
+<section id="final" class="card">
+  <h2>🎓 结业自查</h2>
+  <p>这门课的"高级水平"，不是会多少花招，而是五件事都形成习惯：</p>
+  <div id="finalList">
+    <div class="final-row"><span class="st-ic" data-fic="m1">⬜</span><span>管记忆：会自述、纠错、删除、补偏好</span><a href="lesson2.html#m1">去练 →</a></div>
+    <div class="final-row"><span class="st-ic" data-fic="m2">⬜</span><span>管权限：会审计权限树、清旧账、踩审批刹车</span><a href="lesson2.html#m2">去练 →</a></div>
+    <div class="final-row"><span class="st-ic" data-fic="m3">⬜</span><span>串任务链：会派多步活，并把验收点写进指令</span><a href="#m3">去练 →</a></div>
+    <div class="final-row"><span class="st-ic" data-fic="m4">⬜</span><span>设自动化：会把重复事改成定时任务并互审</span><a href="#m4">去练 →</a></div>
+    <div class="final-row"><span class="st-ic" data-fic="m5">⬜</span><span>做审计：自己的设置逐项过一遍，心里有账</span><a href="#m5">去练 →</a></div>
+  </div>
+  <div class="done-banner" id="finalDone">🎓 五个模块全部完成——你已经不是"会问 AI 的人"，而是"会管一个助手的"人了。剩下的，就是在真实生活里天天用它。</div>
+  <p class="muted" id="finalTxt">完成进度 0 / 5（进度存在本机浏览器，三页通用）</p>
+</section>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p class="redline">红线不变：带 SIN、银行卡号、密码的文件永远不上传 · 涉及钱和日期，永远追问一句"出处呢？"</p>
+    <p>本页所有界面均为教学模拟，与真 App 可能有出入，请以你手机上的实际界面为准。本页不收集、不上传任何数据；你的练习进度只保存在本机浏览器里。</p>
+    <p><a href="index.html">← 回课程首页</a> · <a href="lesson1.html">第一次课</a> · <a href="lesson2.html">第二次课</a></p>
+    <p>Muse 实操实验室 · 高级篇配套页</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var PKEY = "museLab.v1.progress";
+  function loadP(){ try { return JSON.parse(localStorage.getItem(PKEY) || "{}") || {}; } catch(e){ return {}; } }
+  function saveP(patch){ try { var cur = loadP(); for (var k in patch) cur[k] = patch[k]; localStorage.setItem(PKEY, JSON.stringify(cur)); } catch(e){} }
+  function paintBadges(){
+    var p = loadP();
+    ["m1","m2","m3","m4","m5"].forEach(function(k){
+      document.querySelectorAll('[data-badge="' + k + '"]').forEach(function(el){
+        if (p[k]) { el.textContent = "已完成 ✅"; el.className = "mod-badge badge-done"; }
+        else { el.textContent = "未完成"; el.className = "mod-badge badge-todo"; }
+      });
+      document.querySelectorAll('[data-fic="' + k + '"]').forEach(function(el){ el.textContent = p[k] ? "✅" : "⬜"; });
+    });
+    var done = ["m1","m2","m3","m4","m5"].filter(function(k){ return p[k]; }).length;
+    document.getElementById("finalTxt").textContent = "完成进度 " + done + " / 5（进度存在本机浏览器，三页通用）";
+    document.getElementById("finalDone").classList.toggle("show", done === 5);
+  }
+
+  function copyText(text, btn){
+    function ok(){ var old = btn.textContent; btn.textContent = "✅ 已复制，去粘贴吧"; setTimeout(function(){ btn.textContent = old; }, 1800); }
+    function fallback(){
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); ok(); } catch(e){ btn.textContent = "请长按上方文字手动复制"; }
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, fallback);
+    else fallback();
+  }
+
+  /* ---------- 模块三：任务链步进 ---------- */
+  var STEPS = [
+    { st:"第 1 步 · 读邮件", body:'在你最近的邮件里找到 1 封带日期的学校邮件：<div class="mail">📧 <b>学校办公室</b>：家长会通知——11 月 12 日（周四）晚 7 点，学校礼堂，请家长准时出席。（另有 2 封广告邮件，已跳过）</div>', verify:"✔ 验收点：让它报出「找到几封、分别是谁发的」，对不上就别往下走。" },
+    { st:"第 2 步 · 提取事项和日期", body:"从邮件里提取出结构化信息：<br>· 事项：家长会<br>· 日期：11 月 12 日（周四）<br>· 时间：晚 7 点<br>· 地点：学校礼堂", verify:"✔ 验收点：日期和时间逐项核对原文——AI 最容易在日期上想当然。" },
+    { st:"第 3 步 · 建日历事件", body:"已在你的日历上新建：<div class=\"mail\">📅 <b>家长会</b> · 11 月 12 日 19:00 · 学校礼堂</div>", verify:"✔ 验收点：打开日历 App，那一天能看到这条事件，标题对得上。" },
+    { st:"第 4 步 · 设提前提醒", body:"已设提醒：<div class=\"mail\">🔔 11 月 11 日 19:00 提醒你：明天晚 7 点学校家长会</div>这个提醒会躺在 Upcoming 里，到点弹通知。", verify:"✔ 验收点：点头像 → Upcoming，能看到这个提醒；手机 Notifications 记得开着。" },
+    { st:"第 5 步 · 汇总汇报", body:"最后，它把全程结果汇总成一条消息发你：<div class=\"mail\">✅ 已处理：从学校邮件中提取到家长会（11 月 12 日 19:00），已建日历事件，并设了提前一天的提醒。</div>一条链跑完，你只花了检查的功夫。", verify:"✔ 验收点：汇报里说的每一件事，都能在日历 / Upcoming 里找到实物。" }
+  ];
+  var cur = -1;
+  var stageEl = document.getElementById("chainStage");
+  var nextBtn = document.getElementById("chainNext");
+  function paintChain(){
+    document.querySelectorAll(".chain-step").forEach(function(el, i){
+      el.classList.toggle("done", i < cur || (cur >= STEPS.length));
+      el.classList.toggle("active", i === cur);
+      if (cur >= STEPS.length) el.classList.add("done");
+    });
+    if (cur < 0){
+      stageEl.innerHTML = "";
+      var s = document.createElement("span"); s.className = "st"; s.textContent = "等待开始";
+      stageEl.appendChild(s); stageEl.appendChild(document.createTextNode("点下面的「开始执行」，一步步看这条链怎么跑完。"));
+      nextBtn.textContent = "▶ 开始执行"; nextBtn.disabled = false;
+    } else if (cur < STEPS.length){
+      var step = STEPS[cur];
+      stageEl.innerHTML = "";
+      var st = document.createElement("span"); st.className = "st"; st.textContent = step.st;
+      stageEl.appendChild(st);
+      var body = document.createElement("div"); body.innerHTML = step.body;
+      stageEl.appendChild(body);
+      var vf = document.createElement("span"); vf.className = "verify"; vf.textContent = step.verify;
+      stageEl.appendChild(vf);
+      nextBtn.textContent = cur === STEPS.length - 1 ? "完成 ✓" : "下一步 →";
+    } else {
+      nextBtn.textContent = "已完成 ✅"; nextBtn.disabled = true;
+      document.getElementById("m3Done").classList.add("show");
+    }
+  }
+  nextBtn.addEventListener("click", function(){
+    if (cur < STEPS.length){
+      cur++;
+      if (cur >= STEPS.length){ saveP({ m3:true }); paintBadges(); }
+      paintChain();
+    }
+  });
+  document.getElementById("chainReset").addEventListener("click", function(){
+    cur = -1;
+    document.getElementById("m3Done").classList.remove("show");
+    paintChain();
+  });
+
+  /* ---------- 模块四：自动化诊所 ---------- */
+  var PRESETS = {
+    mail:  { freq:"每天", time:"晚上 8 点", task:"把今天收到的邮件里需要处理的事汇总一下（发件人＋要点＋截止日期）", result:"汇总成一条消息发我", nochg:"就不用发", ask:"付款和对外发消息" },
+    flyer: { freq:"每周四", time:"晚上 8 点", task:"查两家超市本周 flyer 里鸡蛋、牛奶的价格，和上周比", result:"汇总成一条消息发我", nochg:"就不用发", ask:"付款和对外发消息" },
+    family:{ freq:"每周日", time:"晚上 8 点", task:"把下周全家的日历安排汇总一下（谁、什么事、哪天）", result:"汇总成一条消息发我", nochg:"照样发我", ask:"改动任何人的日程" }
+  };
+  function setSel(id, val){ var el = document.getElementById(id); for (var i = 0; i < el.options.length; i++) if (el.options[i].text === val) el.selectedIndex = i; }
+  document.querySelectorAll("[data-preset]").forEach(function(ch){
+    ch.addEventListener("click", function(){
+      var p = PRESETS[ch.getAttribute("data-preset")];
+      setSel("aFreq", p.freq); setSel("aTime", p.time);
+      document.getElementById("aTask").value = p.task;
+      setSel("aResult", p.result); setSel("aNochg", p.nochg);
+      document.getElementById("aAsk").value = p.ask;
+      document.getElementById("aOut").textContent = "已套用范例，改成你自己的情况后，点「生成任务措辞」。";
+    });
+  });
+  var generated = false;
+  function genText(){
+    var f = document.getElementById("aFreq").value, t = document.getElementById("aTime").value;
+    var task = document.getElementById("aTask").value.trim() || "（把任务写具体）";
+    var r = document.getElementById("aResult").value, n = document.getElementById("aNochg").value;
+    var a = document.getElementById("aAsk").value.trim() || "付款和对外发消息";
+    return f + t + "，" + task + "，结果" + r + "；如果没有变化，" + n + "。涉及" + a + "，先问我再做。";
+  }
+  document.getElementById("aGen").addEventListener("click", function(){
+    document.getElementById("aOut").textContent = "「" + genText() + "」";
+    generated = true;
+    checkM4();
+  });
+  document.getElementById("aCopy").addEventListener("click", function(){
+    copyText(genText(), this);
+  });
+  var auditChecks = document.querySelectorAll("#auditList input[type=checkbox]");
+  function checkM4(){
+    var all = generated && Array.prototype.every.call(auditChecks, function(b){ return b.checked; });
+    document.getElementById("m4Done").classList.toggle("show", all);
+    if (all){ saveP({ m4:true }); paintBadges(); }
+  }
+  auditChecks.forEach(function(b){ b.addEventListener("change", checkM4); });
+
+  /* ---------- 模块五：必做审计清单 ---------- */
+  var HKEY = "museLab.hw2.v1";
+  var hw = {};
+  try { hw = JSON.parse(localStorage.getItem(HKEY) || "{}") || {}; } catch(e){ hw = {}; }
+  var hwBoxes = document.querySelectorAll("#auditHw input[type=checkbox]");
+  function renderHw(){
+    var n = 0;
+    hwBoxes.forEach(function(b){
+      var on = !!hw[b.getAttribute("data-k")];
+      b.checked = on;
+      b.closest(".check-item").classList.toggle("done", on);
+      if (on) n++;
+    });
+    document.getElementById("hwProgress").style.width = (n / hwBoxes.length * 100) + "%";
+    document.getElementById("hwProgressTxt").textContent = "审计完成 " + n + " / " + hwBoxes.length + " · 交作业时附审计前、审计后各一张 Permissions 截图";
+    document.getElementById("m5Done").classList.toggle("show", n === hwBoxes.length);
+    if (n === hwBoxes.length){ saveP({ m5:true }); }
+    paintBadges();
+  }
+  hwBoxes.forEach(function(b){
+    b.addEventListener("change", function(){
+      hw[b.getAttribute("data-k")] = b.checked;
+      try { localStorage.setItem(HKEY, JSON.stringify(hw)); } catch(e){}
+      renderHw();
+    });
+  });
+
+  paintChain();
+  renderHw();
+  paintBadges();
+})();
+</script>
+</body>
+</html>

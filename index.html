@@ -15,12 +15,11 @@
   body{margin:0;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
        background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px;}
   .wrap{max-width:880px;margin:0 auto;padding:0 14px 48px;}
-  section{scroll-margin-top:20px;}
 
   header.hero{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-dark) 100%);color:#fff;padding:32px 0 26px;}
   header.hero .wrap{padding-bottom:0;}
   header.hero h1{margin:0 0 6px;font-size:32px;letter-spacing:.5px;}
-  header.hero .sub{opacity:.94;font-size:15.5px;margin:0 0 6px;max-width:640px;}
+  header.hero .sub{opacity:.94;font-size:15.5px;margin:0 0 6px;max-width:660px;}
   header.hero .pillars{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
   header.hero .pillars span{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);
     padding:4px 12px;border-radius:999px;font-size:14px;}
@@ -30,17 +29,24 @@
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
     padding:18px 18px 16px;margin-top:18px;box-shadow:0 1px 3px rgba(35,64,110,.06);}
   .card h2{margin:0 0 6px;font-size:21px;color:var(--blue-dark);}
-  .card h3{margin:14px 0 6px;font-size:17px;color:var(--blue-dark);}
   .card p{margin:6px 0;}
   .muted{color:var(--grey);font-size:14.5px;}
   ul.tight{margin:6px 0;padding-left:20px;}
   ul.tight li{margin:3px 0;}
 
+  .road{display:flex;gap:6px;flex-wrap:wrap;align-items:stretch;margin-top:12px;}
+  .road .st{flex:1 1 150px;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;}
+  .road .st b{display:block;color:var(--blue-dark);font-size:16px;}
+  .road .st span{font-size:13.5px;color:var(--grey);}
+  .road .arr{align-self:center;color:var(--grey);font-size:18px;flex:0 0 auto;}
+  @media (max-width:640px){.road .arr{display:none;}.road .st{flex:1 1 44%;}}
+
   .course{border:1.5px solid var(--line);border-radius:14px;padding:18px;margin-top:16px;background:#fff;}
   .course-head{display:flex;align-items:flex-start;gap:14px;}
   .course-num{flex:0 0 auto;width:52px;height:52px;border-radius:14px;background:var(--blue);color:#fff;
     display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;}
-  .course-num.two{background:var(--blue-dark);}
+  .course-num.two{background:#3d6db5;}
+  .course-num.three{background:var(--blue-dark);}
   .course-head .t{flex:1 1 auto;min-width:0;}
   .course-head .t b{font-size:20px;color:var(--blue-dark);display:block;}
   .course-head .t span{font-size:14.5px;color:var(--grey);}
@@ -70,35 +76,46 @@
 <header class="hero">
   <div class="wrap">
     <h1>Muse 实操实验室</h1>
-    <p class="sub">Muse 使用培训的完整课程主页。这门课分两次上：<b>第一次打基础</b>——从"聊天"到"派活"；<b>第二次学管理</b>——管它的记忆、管它的权限、管它的任务。</p>
-    <p class="sub">两课的课件和练习都在这里，课上跟着练，课后随时打开查看、照着练。</p>
-    <div class="pillars"><span>📘 第一课 · 打基础</span><span>📗 第二课 · 学管理</span><span>🛠 每课都有动手练习</span></div>
+    <p class="sub">一套从零开始、由浅入深的 Muse 实操课：不需要任何 AI 基础，跟着页面一步步动手练，就能从"会问问题"练到"会管一个助手"，服务你的工作和生活。</p>
+    <p class="sub">全部课程分四个阶段、三页课件，每一节都有能直接上手的模拟练习。课上跟着练，课后随时打开查看、照着练。</p>
+    <div class="pillars"><span>🌱 零基础可学</span><span>🛠 以实操为主</span><span>🎯 目标：熟练用到高级水平</span></div>
   </div>
 </header>
 
 <div class="notice">
-  <div class="wrap">📌 <b>先说清：</b>本站是教学课件与模拟练习页，不连接你的真实账号。动手练完之后，请回到<b>自己手机上的 Muse App</b> 里再跟着做一遍——真操作永远在 App 里。<b>切勿在任何页面输入真实密码、银行卡号、SIN 等敏感信息。</b></div>
+  <div class="wrap">📌 <b>先说清：</b>本站是教学课件与模拟练习页，不连接你的真实账号。页面里练完之后，请回到<b>自己手机（或电脑）上的 Muse App</b> 里再跟着做一遍——真操作永远在 App 里。<b>切勿在任何页面输入真实密码、银行卡号、SIN 等敏感信息。</b></div>
 </div>
 
 <div class="wrap">
 
 <section class="card">
+  <h2>学习路线图（由浅入深）</h2>
+  <p>按顺序走，不用跳级。你的练习进度只保存在这台设备的浏览器里（换设备不互通）。</p>
+  <div class="road">
+    <div class="st"><b>阶段一 · 入门</b><span>从聊天到派活：派活三段式、让它认识你</span></div><span class="arr">→</span>
+    <div class="st"><b>阶段二 · 基础</b><span>让它开始干活：Settings、接邮箱、权限三档、审批卡初体验</span></div><span class="arr">→</span>
+    <div class="st"><b>阶段三 · 进阶</b><span>管好你的助手：记忆管理、权限深挖、审批卡实操</span></div><span class="arr">→</span>
+    <div class="st"><b>阶段四 · 高级</b><span>让它自己干活：多步任务链、自动化、审计与结业</span></div>
+  </div>
+  <div class="progress-outer"><div class="progress-inner" id="pAll"></div></div>
+  <p class="muted" id="pAllTxt">总进度：0 / 11 项练习与清单</p>
+</section>
+
+<section class="card">
   <h2>课程总览</h2>
-  <p>推荐按顺序学：先第一课，再第二课；已经上过第一次课的同学，可以直接进第二课。每课约 90 分钟。你的练习进度只保存在这台手机的浏览器里（换一台手机不互通）。</p>
 
   <div class="course">
     <div class="course-head">
       <div class="course-num">一</div>
-      <div class="t"><b>第一次课 · 从"聊天"到"派活"</b><span>适合：刚接触 Muse 的同学；老学员也可以打开查漏补缺</span></div>
-      <span class="level">基础</span>
+      <div class="t"><b>第一课 · 从"聊天"到"派活"</b><span>阶段一（入门）＋ 阶段二（基础）· 适合零基础的同学</span></div>
+      <span class="level">入门 → 基础</span>
     </div>
     <ul class="tight">
       <li><b>派活三段式</b>：背景＋任务＋验收，像主管一样交代工作（带拼句练习）</li>
       <li><b>让它认识你</b>：四件套自我介绍，教完新开对话验证它真记住了</li>
-      <li><b>Settings 地图</b>：设置页就是方向盘和刹车，八个设置项一表看清</li>
-      <li><b>权限三档</b>：Allow / Ask / Deny 怎么选，口诀"读的放行，写的要问，花钱的必审"</li>
-      <li><b>五个作业练习</b>：买菜比价官、邮件秘书、英语跟读教练、家庭提醒管家、周末出游规划师（提示词可一键复制）</li>
-      <li><b>安全红线与自查清单</b>：六项可勾选，进度自动保存</li>
+      <li><b>Settings 地图＋连接邮箱</b>：设置页就是方向盘和刹车；四步接好邮箱（只读）</li>
+      <li><b>权限三档＋审批卡初体验</b>：口诀"读的放行，写的要问，花钱的必审"；3 张审批卡练手感</li>
+      <li><b>五个作业练习＋安全红线</b>：提示词可一键复制；六项自查清单可勾选保存</li>
     </ul>
     <div class="progress-outer"><div class="progress-inner" id="pLesson1"></div></div>
     <p class="muted" id="pLesson1Txt">自查清单进度：0 / 6</p>
@@ -108,28 +125,44 @@
   <div class="course">
     <div class="course-head">
       <div class="course-num two">二</div>
-      <div class="t"><b>第二次课 · 管记忆、管权限、管任务</b><span>适合：上过第一次课、日常已经在用 AI 的同学</span></div>
+      <div class="t"><b>第二课 · 管记忆、管权限</b><span>阶段三（进阶）· 适合学完第一课的同学</span></div>
       <span class="level adv">进阶</span>
     </div>
     <ul class="tight">
-      <li><b>记忆管理</b>：让它自述、逐条纠错、删掉不要的、补长期偏好（可动手练）</li>
-      <li><b>Settings 权限深挖</b>：权限树、背景同步、旧放行撤销、Browser 五件套、审批卡实操</li>
-      <li><b>多步任务链</b>：读邮件 → 建日历 → 设提醒 → 汇报，把验收点写进指令</li>
-      <li><b>自动化诊所</b>：把一件每周重复事改造成定时任务</li>
-      <li><b>作业 2.0 与答疑</b>：必做权限审计＋五选二</li>
+      <li><b>记忆管理（可动手）</b>：让它自述、逐条纠错、删掉不要的、补长期偏好</li>
+      <li><b>权限深挖模拟器</b>：完整的模拟设置页——权限树逐项拨、背景同步、旧放行撤销、密码保险库</li>
+      <li><b>审批卡实操（6 题）</b>：真实场景判断，批准还是拒绝，当场反馈打分</li>
+      <li><b>全局 vs 单项</b>：全局定调子、单项开小灶、旧账随时清</li>
     </ul>
     <div class="progress-outer"><div class="progress-inner" id="pLesson2"></div></div>
-    <p class="muted" id="pLesson2Txt">模块完成进度：0 / 5</p>
+    <p class="muted" id="pLesson2Txt">进阶模块进度：0 / 2</p>
     <a class="btn" href="lesson2.html">进入第二课 →</a>
+  </div>
+
+  <div class="course">
+    <div class="course-head">
+      <div class="course-num three">高</div>
+      <div class="t"><b>高级篇 · 让它自己干活</b><span>阶段四（高级）· 学完前两课后来这里结业</span></div>
+      <span class="level adv">高级</span>
+    </div>
+    <ul class="tight">
+      <li><b>多步任务链（步进演示）</b>：读邮件 → 提取 → 建日历 → 设提醒 → 汇报，每步标注验收点</li>
+      <li><b>自动化诊所（生成器）</b>：把每周重复事填空拼成合格的定时任务，附互审清单</li>
+      <li><b>作业 2.0 与答疑</b>：必做权限审计、五选二升级版、常见问题解答</li>
+      <li><b>结业自查</b>：五项能力逐项点亮，全部完成 = 达到"会管一个助手"的高级用法</li>
+    </ul>
+    <div class="progress-outer"><div class="progress-inner" id="pLesson3"></div></div>
+    <p class="muted" id="pLesson3Txt">高级模块进度：0 / 3</p>
+    <a class="btn" href="lesson3.html">进入高级篇 →</a>
   </div>
 </section>
 
 <section class="card">
   <h2>怎么用这个站</h2>
   <div class="how-grid">
-    <div class="how"><b>1️⃣ 课上跟着练</b>讲师讲到哪一节，就打开对应页面动手点一遍——看十遍不如点一遍。</div>
-    <div class="how"><b>2️⃣ 课后随时复习</b>把这一页存成手机书签。忘了某个设置在哪、某个提示词怎么写，回来查、回来抄。</div>
-    <div class="how"><b>3️⃣ 练完回 App 跟做</b>页面里是模拟和模板；真正的设置和任务，要回你自己的 Muse App 里做一遍才算数。</div>
+    <div class="how"><b>1️⃣ 跟着顺序练</b>从第一课第一阶段开始，每节先看讲解，再动手做页面里的模拟练习——看十遍不如点一遍。</div>
+    <div class="how"><b>2️⃣ 练完回 App 跟做</b>每节末尾都有"回真 App 跟做"卡片：把刚练的动作，在你自己的 Muse 里真做一遍，才算学会。</div>
+    <div class="how"><b>3️⃣ 随时回来查</b>把这一页存成手机书签。忘了某个设置在哪、某句提示词怎么写，回来查、回来抄，进度都还在。</div>
   </div>
 </section>
 
@@ -146,21 +179,21 @@
 <script>
 (function(){
   "use strict";
-  function countTrue(obj, keys){
-    var n = 0;
-    if (!obj) return 0;
-    keys.forEach(function(k){ if (obj[k]) n++; });
-    return n;
+  function load(key){ try { return JSON.parse(localStorage.getItem(key) || "{}") || {}; } catch(e){ return {}; } }
+  function count(obj, keys){ var n = 0; keys.forEach(function(k){ if (obj[k]) n++; }); return n; }
+  var checks = count(load("museLab.lesson1.v1"), ["c1","c2","c3","c4","c5","c6"]);
+  var prog = load("museLab.v1.progress");
+  var adv = count(prog, ["m1","m2"]);
+  var high = count(prog, ["m3","m4","m5"]);
+  function setBar(id, txtId, n, total, label){
+    document.getElementById(id).style.width = (n / total * 100) + "%";
+    document.getElementById(txtId).textContent = label + "：" + n + " / " + total + (n === total ? " · 已全部完成 🎉" : "");
   }
-  function load(key){
-    try { return JSON.parse(localStorage.getItem(key) || "{}") || {}; } catch(e){ return {}; }
-  }
-  var n1 = countTrue(load("museLab.lesson1.v1"), ["c1","c2","c3","c4","c5","c6"]);
-  document.getElementById("pLesson1").style.width = (n1 / 6 * 100) + "%";
-  document.getElementById("pLesson1Txt").textContent = "自查清单进度：" + n1 + " / 6" + (n1 === 6 ? " · 已全部完成 🎉" : "");
-  var n2 = countTrue(load("museLab.v1.progress"), ["m1","m2","m3","m4","m5"]);
-  document.getElementById("pLesson2").style.width = (n2 / 5 * 100) + "%";
-  document.getElementById("pLesson2Txt").textContent = "模块完成进度：" + n2 + " / 5" + (n2 === 5 ? " · 已全部完成 🎉" : "");
+  setBar("pLesson1", "pLesson1Txt", checks, 6, "自查清单进度");
+  setBar("pLesson2", "pLesson2Txt", adv, 2, "进阶模块进度");
+  setBar("pLesson3", "pLesson3Txt", high, 3, "高级模块进度");
+  setBar("pAll", "pAllTxt", checks + adv + high, 11, "总进度（项练习与清单）");
+  document.getElementById("pAllTxt").textContent = "总进度：" + (checks + adv + high) + " / 11 项练习与清单" + (checks + adv + high === 11 ? " · 全课程完成 🎓" : "");
 })();
 </script>
 </body>

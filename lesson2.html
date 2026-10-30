@@ -125,6 +125,45 @@
   footer .wrap{padding-top:14px;padding-bottom:26px;}
   footer .redline{color:var(--red);font-weight:700;}
   footer p{margin:5px 0;font-size:14.5px;color:var(--grey);}
+
+  /* ---------- 模块二：权限模拟器 ---------- */
+  .conn{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:12px;}
+  .conn h4{margin:0 0 4px;font-size:16.5px;color:var(--blue-dark);}
+  .perm-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 0;border-bottom:1px dashed var(--line);}
+  .perm-row:last-child{border-bottom:none;}
+  .perm-name{flex:1 1 150px;font-size:15.5px;}
+  .perm-name .hint{display:block;font-size:13px;color:var(--grey);}
+  .seg{display:flex;gap:6px;flex:0 0 auto;}
+  .seg button{appearance:none;border:1.5px solid var(--line);background:#fff;color:var(--grey);border-radius:9px;
+    padding:8px 13px;font-size:14.5px;min-height:44px;cursor:pointer;font-family:inherit;min-width:64px;}
+  .seg button.on[data-val="Allow"]{background:#e3f2e5;border-color:var(--green);color:var(--green);font-weight:700;}
+  .seg button.on[data-val="Ask"]{background:var(--amber-bg);border-color:var(--amber);color:var(--amber);font-weight:700;}
+  .seg button.on[data-val="Deny"]{background:#fdeeed;border-color:var(--red);color:var(--red);font-weight:700;}
+  .simlog{background:#0f1c33;color:#dbe7ff;border-radius:12px;padding:12px 14px;margin-top:12px;font-size:14.5px;min-height:52px;}
+  .simlog .who{color:#8fb4ff;font-weight:700;}
+  .simlog div{margin:4px 0;}
+  .simlog .bad{color:#ff9d94;} .simlog .good{color:#93dfa4;}
+  .tgl-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px;}
+  .tgl{appearance:none;width:62px;height:36px;border-radius:999px;border:1.5px solid var(--line);background:#fff;position:relative;cursor:pointer;flex:0 0 auto;}
+  .tgl::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#c3cede;transition:all .2s;}
+  .tgl[aria-pressed="true"]{background:#e3f2e5;border-color:var(--green);}
+  .tgl[aria-pressed="true"]::after{left:29px;background:var(--green);}
+  .recip-row{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-top:10px;flex-wrap:wrap;}
+  .recip-row .who2{flex:1 1 200px;font-size:15.5px;}
+  .recip-row .who2 span{display:block;font-size:13px;color:var(--grey);}
+  .recip-row.revoked{opacity:.55;}
+  .recip-row .rev-tag{color:var(--red);font-weight:700;font-size:14px;}
+  .appr{border:2px solid var(--amber);border-radius:14px;padding:14px 16px;margin-top:12px;background:#fffdf6;}
+  .appr h4{margin:0 0 6px;font-size:16.5px;color:#7a5200;}
+  .appr .req{font-size:16px;margin:6px 0;}
+  .appr .detail{font-size:14.5px;color:var(--grey);margin:4px 0;}
+  .appr .fb{display:none;border-radius:10px;padding:10px 12px;margin-top:10px;font-size:15px;}
+  .appr .fb.show{display:block;}
+  .appr .fb.right{background:#e3f2e5;color:#14541d;}
+  .appr .fb.wrong{background:#fdeeed;color:#7c1d17;}
+  .status-line{background:var(--amber-bg);border:1px solid #ecd9a8;border-radius:12px;padding:12px 14px;margin-top:12px;font-size:15px;}
+  .status-line b{color:var(--amber);}
+  .status-line .ok{color:var(--green);font-weight:700;}
 </style>
 </head>
 <body>
@@ -147,9 +186,7 @@
     <a href="#home">🏠 课程地图</a>
     <a href="#m1">① 记忆管理</a>
     <a href="#m2">② 权限深挖</a>
-    <a href="#m3">③ 多步任务链</a>
-    <a href="#m4">④ 自动化诊所</a>
-    <a href="#m5">⑤ 作业与答疑</a>
+    <a href="lesson3.html">③④⑤ 高级篇 →</a>
   </div>
 </nav>
 
@@ -173,10 +210,10 @@
 
   <div id="modList">
     <div class="mod-row"><div class="num">1</div><div class="txt"><b>记忆管理</b><span class="mod-badge badge-todo" data-badge="m1">未完成</span><div>自述 → 纠错 → 补长期偏好，做一轮记忆体检</div></div><a class="go" href="#m1">开始练</a></div>
-    <div class="mod-row"><div class="num">2</div><div class="txt"><b>Settings 权限深挖</b><span class="mod-badge badge-wip" data-badge="m2">打磨中</span><div>权限树、背景同步、旧放行撤销、Browser 五件套、审批卡实操</div></div><a class="go" href="#m2">先看看</a></div>
-    <div class="mod-row"><div class="num">3</div><div class="txt"><b>多步任务链</b><span class="mod-badge badge-wip" data-badge="m3">打磨中</span><div>读邮件 → 提取日期 → 建日历 → 设提醒 → 汇报，步进走完</div></div><a class="go" href="#m3">先看看</a></div>
-    <div class="mod-row"><div class="num">4</div><div class="txt"><b>自动化诊所</b><span class="mod-badge badge-wip" data-badge="m4">打磨中</span><div>把一件每周重复事，填空拼成一条合格的定时任务</div></div><a class="go" href="#m4">先看看</a></div>
-    <div class="mod-row"><div class="num">5</div><div class="txt"><b>作业 2.0 与答疑</b><span class="mod-badge badge-wip" data-badge="m5">打磨中</span><div>必做权限审计 + 五选二，进度可勾选保存；常见问题解答</div></div><a class="go" href="#m5">先看看</a></div>
+    <div class="mod-row"><div class="num">2</div><div class="txt"><b>Settings 权限深挖</b><span class="mod-badge badge-todo" data-badge="m2">未完成</span><div>权限树、背景同步、旧放行撤销、Browser 五件套、审批卡实操</div></div><a class="go" href="#m2">开始练</a></div>
+    <div class="mod-row"><div class="num">3</div><div class="txt"><b>多步任务链</b><span class="mod-badge badge-todo" data-badge="m3">未完成</span><div>在高级篇：读邮件 → 提取日期 → 建日历 → 设提醒 → 汇报，步进走完</div></div><a class="go" href="lesson3.html">去高级篇</a></div>
+    <div class="mod-row"><div class="num">4</div><div class="txt"><b>自动化诊所</b><span class="mod-badge badge-todo" data-badge="m4">未完成</span><div>在高级篇：把一件每周重复事，填空拼成一条合格的定时任务</div></div><a class="go" href="lesson3.html">去高级篇</a></div>
+    <div class="mod-row"><div class="num">5</div><div class="txt"><b>作业 2.0 与答疑</b><span class="mod-badge badge-todo" data-badge="m5">未完成</span><div>在高级篇：必做权限审计 + 五选二，进度可勾选保存；常见问题解答</div></div><a class="go" href="lesson3.html">去高级篇</a></div>
   </div>
 </section>
 
@@ -221,53 +258,91 @@
   </div>
 </section>
 
-<!-- ================= 模块二：权限深挖（打磨中） ================= -->
+<!-- ================= 模块二：权限深挖 ================= -->
 <section id="m2" class="card">
-  <h2>② Settings 权限深挖<span class="mod-badge badge-wip">打磨中</span></h2>
-  <p>本课的重点：把第一次课讲的"红线意识"，变成一个一个<b>能拨的开关</b>。这一模块正在细细打磨，将包含：</p>
-  <ul class="tight soon">
-    <li>模拟权限树：每个已连接账号的读 / 写动作，逐项练 Allow / Ask / Deny，拨错立刻弹风险说明</li>
-    <li>Background sync 开关演示：开和关，分别会发生什么</li>
-    <li>旧放行记录（Recipient permissions）撤销练习</li>
-    <li>全局默认 vs 单项覆盖：最小够用原则的对比演示</li>
-    <li>Browser 五件套与 Secure credentials：新手推荐配置对照</li>
-    <li>审批卡实操：6 个真实场景，批准还是拒绝，当场反馈</li>
-  </ul>
+  <h2>② Settings 权限深挖<span class="mod-badge badge-todo" data-badge="m2">未完成</span></h2>
+  <p>本课重点：把"红线意识"变成一个一个<b>能拨的开关</b>。下面是一台完整的模拟设置页，初始配置里埋了几处危险设置——你的任务是把它们逐项改到安全档位，再完成撤销旧放行、凭据库和审批卡三部分。四部分全过关，本模块完成。</p>
   <p class="muted">先记住这一句：<b>全局定调子，单项开小灶，旧账随时清。</b></p>
+
+  <div class="status-line" id="m2Status">🎯 <b>过关进度：</b><span id="m2StatusTxt"></span></div>
+
+  <h3>第一部分 · 权限树模拟（拨一拨，立刻看后果）</h3>
+  <p>每个账号一棵权限树：读、写分开列，每项独立设 Allow / Ask / Deny。这正是真 App 里 Settings → Connectors 点开一个账号看到的结构。</p>
+
+  <div class="conn">
+    <h4>📧 Gmail（已连接）</h4>
+    <div class="perm-row" data-perm="gmail_read"><div class="perm-name">读取邮件<span class="hint">只读，不改动任何东西</span></div><div class="seg"><button data-val="Allow">Allow</button><button data-val="Ask">Ask</button><button data-val="Deny">Deny</button></div></div>
+    <div class="perm-row" data-perm="gmail_send"><div class="perm-name">发送邮件<span class="hint">以你的名义把邮件发出去</span></div><div class="seg"><button data-val="Allow">Allow</button><button data-val="Ask">Ask</button><button data-val="Deny">Deny</button></div></div>
+    <div class="perm-row" data-perm="gmail_reply"><div class="perm-name">回复 / 转发邮件<span class="hint">同样是往外发字</span></div><div class="seg"><button data-val="Allow">Allow</button><button data-val="Ask">Ask</button><button data-val="Deny">Deny</button></div></div>
+    <div class="perm-row" data-perm="gmail_delete"><div class="perm-name">删除邮件<span class="hint">删了可能找不回来</span></div><div class="seg"><button data-val="Allow">Allow</button><button data-val="Ask">Ask</button><button data-val="Deny">Deny</button></div></div>
+    <div class="tgl-row"><button class="tgl" id="syncTgl" aria-pressed="true" aria-label="Background sync 开关"></button><div style="flex:1 1 220px;font-size:15.5px;">Background sync（背景同步）<span class="muted" style="display:block;font-size:13.5px;">开着：它在后台也会定时查这个账号、主动给你推送。关掉：只在你正打开 App 用它时才碰这个账号。想让它安静，先关这个。</span></div></div>
+  </div>
+
+  <div class="conn">
+    <h4>📅 Google 日历（已连接）</h4>
+    <div class="perm-row" data-perm="cal_view"><div class="perm-name">查看日程<span class="hint">只读</span></div><div class="seg"><button data-val="Allow">Allow</button><button data-val="Ask">Ask</button><button data-val="Deny">Deny</button></div></div>
+    <div class="perm-row" data-perm="cal_create"><div class="perm-name">新建活动<span class="hint">往你日历里加事件</span></div><div class="seg"><button data-val="Allow">Allow</button><button data-val="Ask">Ask</button><button data-val="Deny">Deny</button></div></div>
+    <div class="perm-row" data-perm="cal_delete"><div class="perm-name">删除活动<span class="hint">删错了会误事</span></div><div class="seg"><button data-val="Allow">Allow</button><button data-val="Ask">Ask</button><button data-val="Deny">Deny</button></div></div>
+  </div>
+
+  <div class="conn">
+    <h4>🌐 Browser（它上网办事的五种动作）</h4>
+    <div class="perm-row" data-perm="web_visit"><div class="perm-name">访问网站<span class="hint">打开网页看内容</span></div><div class="seg"><button data-val="Allow">Allow</button><button data-val="Ask">Ask</button><button data-val="Deny">Deny</button></div></div>
+    <div class="perm-row" data-perm="web_submit"><div class="perm-name">提交表单<span class="hint">把填好的表交出去，等于对外发话</span></div><div class="seg"><button data-val="Allow">Allow</button><button data-val="Ask">Ask</button><button data-val="Deny">Deny</button></div></div>
+    <div class="perm-row" data-perm="web_download"><div class="perm-name">下载文件<span class="hint">把文件存下来</span></div><div class="seg"><button data-val="Allow">Allow</button><button data-val="Ask">Ask</button><button data-val="Deny">Deny</button></div></div>
+    <div class="perm-row" data-perm="web_upload"><div class="perm-name">上传文件<span class="hint">天生谨慎：只有 Ask / Deny 两档，没有 Allow</span></div><div class="seg"><button data-val="Ask">Ask</button><button data-val="Deny">Deny</button></div></div>
+    <div class="perm-row" data-perm="web_password"><div class="perm-name">填已存密码<span class="hint">用保险库里的密码替你登录</span></div><div class="seg"><button data-val="Allow">Allow</button><button data-val="Ask">Ask</button><button data-val="Deny">Deny</button></div></div>
+  </div>
+
+  <h3 style="margin-top:14px;">配置体检</h3>
+  <div class="progress-outer"><div class="progress-inner" id="permScore" style="background:var(--amber);"></div></div>
+  <p class="muted" id="permScoreTxt">安全项 0 / 12</p>
+  <div class="btn-row">
+    <button class="btn ghost" id="applyRec">一键套用推荐配置（对照学习）</button>
+    <button class="btn ghost" id="permReset">↺ 恢复初始配置</button>
+  </div>
+  <div class="simlog" id="permLog"><div><span class="who">体检员（模拟）：</span>初始配置里有几处危险项，拨动任意开关，我会逐项告诉你后果。</div></div>
+
+  <h3>第二部分 · 旧放行记录（Recipient permissions）</h3>
+  <p>你以前放行过的"给某人发消息不用再问"，都记在这里。放行不是终身的——<b>旧账随时清</b>。把下面两条都撤销试试（至少撤一条才算过关）。</p>
+  <div id="recipList">
+    <div class="recip-row" data-recip="r1"><div class="who2">给「家人群」发消息免问<span>2026 年 9 月放行 · 当时为了发每周汇总</span></div><button class="btn small danger recip-btn">Revoke 撤销</button></div>
+    <div class="recip-row" data-recip="r2"><div class="who2">给「团购群」发消息免问<span>2026 年 8 月放行 · 团购早就结束了</span></div><button class="btn small danger recip-btn">Revoke 撤销</button></div>
+  </div>
+
+  <h3>第三部分 · 密码保险库（Secure credentials）</h3>
+  <p>密码存在加密保险库里，Muse 看不到明文。每个登录单独选"自动使用"还是"每次先问我"。原则：<b>小站可以自动，银行和邮箱永远选"每次先问我"</b>。</p>
+  <div class="conn">
+    <div class="perm-row" data-cred="shop"><div class="perm-name">🛒 常去超市的网站登录<span class="hint">低风险日常站</span></div><div class="seg"><button data-val="auto">自动使用</button><button data-val="ask">每次先问我</button></div></div>
+    <div class="perm-row" data-cred="bank"><div class="perm-name">🏦 网上银行登录<span class="hint">最高敏感，初始被设成了自动使用 ⚠️</span></div><div class="seg"><button data-val="auto">自动使用</button><button data-val="ask">每次先问我</button></div></div>
+  </div>
+
+  <h3>第四部分 · 全局 vs 单项（一句话理解）</h3>
+  <p>上面拨的都是<b>全局默认</b>：所有新任务按这个来。但某个具体的定时任务，可以有自己的一套权限——比如全局里 Gmail 发送是 Deny，唯独"每周给家人群发汇总"这个任务，单独放行它给家人群发消息。这叫<b>最小够用</b>：口子只为这一件事、这一个对象开。</p>
+  <div class="real-app"><b>还有两处知道在哪就行：</b><b>Devices</b> 里配对手机的日历、联系人、定位都是独立开关（定位选"使用 App 时"够用）；<b>Notifications 必须开</b>——审批卡走通知，关了等于把刹车提示音关了。设置改乱了也不怕：Permissions 页底部有 <b>Reset approvals to defaults</b>，一键回默认。</div>
+
+  <h3>第五部分 · 审批卡实操（6 题）</h3>
+  <p>凡是设成 Ask 的动作，它动手前都会弹一张审批卡。批得对不对，决定了刹车好不好用。逐题判断：该点<b>批准</b>还是<b>拒绝</b>？答对至少 5 题才算过关。</p>
+  <div id="quizBox"></div>
+  <div class="btn-row"><button class="btn ghost" id="quizReset" style="display:none;">↺ 再练一遍</button></div>
+
+  <div class="done-banner" id="m2Done">✅ 权限深挖过关：权限树全绿、旧放行清了、银行登录改回"每次先问"、审批卡判断合格。你已经会给这个助手定规矩了——全局定调子，单项开小灶，旧账随时清。</div>
+
+  <div class="real-app">
+    <b>📱 回真 App 跟做（这就是作业 2.0 的必做项）：</b>Settings → Connectors，逐个账号打开权限树，对照本页把自己的配置过一遍：<b>发送类 = Ask 或 Deny，读类才 Allow</b>；顺手看一眼 Background sync 开着几个、Recipient permissions 里有没有该清的旧账。审计前后各截一张图。
+  </div>
 </section>
 
-<!-- ================= 模块三：多步任务链（打磨中） ================= -->
-<section id="m3" class="card">
-  <h2>③ 多步任务链<span class="mod-badge badge-wip">打磨中</span></h2>
-  <p>聊天 AI 只能做一步，这个助手能把一件事<b>串成链</b>。这一模块将做成步进演示：</p>
-  <ul class="tight soon">
-    <li>读邮件 → 提取事项和截止日期 → 建日历 → 提前一天提醒 → 汇总汇报，一步步点着走完</li>
-    <li>每一步标注"验收点"在哪里看：日历里能看到、Upcoming 里能看到</li>
-    <li>出错先查 Activity：哪一步做的、什么时候做的，全有记录</li>
+<!-- ================= 继续：高级篇 ================= -->
+<section id="next" class="card">
+  <h2>继续 → 高级篇：让它自己干活</h2>
+  <p>这一课的后三个模块在<b>高级篇</b>页面里，接着练：</p>
+  <ul class="tight">
+    <li><b>③ 多步任务链</b>：读邮件 → 建日历 → 设提醒 → 汇报，步进式走完一整条链<span class="mod-badge badge-todo" data-badge="m3">未完成</span></li>
+    <li><b>④ 自动化诊所</b>：把每周重复事填空拼成一条合格的定时任务<span class="mod-badge badge-todo" data-badge="m4">未完成</span></li>
+    <li><b>⑤ 作业 2.0 与答疑</b>：必做权限审计清单、五选二、常见问题、结业自查<span class="mod-badge badge-todo" data-badge="m5">未完成</span></li>
   </ul>
-  <p class="muted">派多步任务的诀窍：<b>把验收点写进指令</b>——"建完日历把事件标题报给我核对"。</p>
-</section>
-
-<!-- ================= 模块四：自动化诊所（打磨中） ================= -->
-<section id="m4" class="card">
-  <h2>④ 自动化诊所<span class="mod-badge badge-wip">打磨中</span></h2>
-  <p>把你每周都要重复做的一件事，改造成一个定时任务。这一模块将做成填空生成器：</p>
-  <ul class="tight soon">
-    <li>照着模板填空：每＿＿，把＿＿做一遍，结果按＿＿发我；没有变化就不用发；涉及＿＿先问我</li>
-    <li>一键生成可复制的任务措辞，拿回真 App 就能用</li>
-    <li>互审清单：权限有没有放大、没变化是否静默、Upcoming 里能不能找到并关掉它</li>
-  </ul>
-</section>
-
-<!-- ================= 模块五：作业与答疑（打磨中） ================= -->
-<section id="m5" class="card">
-  <h2>⑤ 作业 2.0 与答疑<span class="mod-badge badge-wip">打磨中</span></h2>
-  <p>课后作业会原样搬到这里：<b>必做一项（权限审计）＋ 五选二</b>，每一项都能勾选，进度存在你的手机浏览器里，一周内慢慢完成。</p>
-  <ul class="tight soon">
-    <li>必做 · 权限审计：逐个账号过权限树，发送类 = Ask 或 Deny，审计前后各截一张图</li>
-    <li>五选二：买菜比价官 2.0 / 邮件秘书 2.0 / 英语跟读教练 2.0 / 家庭指挥中心 / 记忆大扫除</li>
-    <li>答疑 FAQ：记错了怎么办、定时任务半夜吵人怎么办、两个邮箱能分开吗、做的事怎么验</li>
-  </ul>
+  <div class="btn-row"><a class="btn" href="lesson3.html" style="text-decoration:none;">进入高级篇 →</a></div>
 </section>
 
 </div><!-- /wrap -->
@@ -289,7 +364,7 @@
   var PKEY = "museLab.v1.progress";
   var progress = {};
   try { progress = JSON.parse(localStorage.getItem(PKEY) || "{}") || {}; } catch(e){ progress = {}; }
-  function saveProgress(){ try { localStorage.setItem(PKEY, JSON.stringify(progress)); } catch(e){} }
+  function saveProgress(){ try { var cur = JSON.parse(localStorage.getItem(PKEY) || "{}") || {}; for (var k in progress) cur[k] = progress[k]; progress = cur; localStorage.setItem(PKEY, JSON.stringify(cur)); } catch(e){} }
 
   var MODULES = ["m1","m2","m3","m4","m5"];
   function renderHome(){
@@ -438,6 +513,244 @@
   entries = JSON.parse(JSON.stringify(INITIAL));
   renderMem();
   renderHome();
+})();
+</script>
+
+<style>
+  .seg button.on[data-val="auto"]{background:var(--amber-bg);border-color:var(--amber);color:var(--amber);font-weight:700;}
+  .seg button.on[data-val="ask"]{background:#e3f2e5;border-color:var(--green);color:var(--green);font-weight:700;}
+</style>
+<script>
+(function(){
+  "use strict";
+  var PKEY = "museLab.v1.progress";
+  function loadP(){ try { return JSON.parse(localStorage.getItem(PKEY) || "{}") || {}; } catch(e){ return {}; } }
+  function saveP(patch){ try { var cur = loadP(); for (var k in patch) cur[k] = patch[k]; localStorage.setItem(PKEY, JSON.stringify(cur)); } catch(e){} }
+  function renderBadges(){
+    var p = loadP();
+    ["m1","m2","m3","m4","m5"].forEach(function(k){
+      document.querySelectorAll('[data-badge="' + k + '"]').forEach(function(el){
+        if (p[k]) { el.textContent = "已完成 ✅"; el.className = "mod-badge badge-done"; }
+      });
+    });
+    var done = ["m1","m2","m3","m4","m5"].filter(function(k){ return p[k]; }).length;
+    var bar = document.getElementById("homeProgress"), txt = document.getElementById("homeProgressTxt");
+    if (bar) bar.style.width = (done / 5 * 100) + "%";
+    if (txt) txt.textContent = "已完成 " + done + " / 5 个模块";
+  }
+
+  /* ---------- 权限树 ---------- */
+  var NAMES = { gmail_read:"读取邮件", gmail_send:"发送邮件", gmail_reply:"回复/转发邮件", gmail_delete:"删除邮件",
+    cal_view:"查看日程", cal_create:"新建活动", cal_delete:"删除活动",
+    web_visit:"访问网站", web_submit:"提交表单", web_download:"下载文件", web_upload:"上传文件", web_password:"填已存密码" };
+  var REC = { gmail_read:"Allow", gmail_send:"Deny", gmail_reply:"Deny", gmail_delete:"Ask",
+    cal_view:"Allow", cal_create:"Ask", cal_delete:"Deny",
+    web_visit:"Allow", web_submit:"Ask", web_download:"Ask", web_upload:"Ask", web_password:"Ask" };
+  var SAFE = { gmail_read:["Allow"], gmail_send:["Ask","Deny"], gmail_reply:["Ask","Deny"], gmail_delete:["Ask","Deny"],
+    cal_view:["Allow"], cal_create:["Allow","Ask"], cal_delete:["Ask","Deny"],
+    web_visit:["Allow"], web_submit:["Ask"], web_download:["Allow","Ask"], web_upload:["Ask","Deny"], web_password:["Ask","Deny"] };
+  var INIT = { gmail_read:"Allow", gmail_send:"Allow", gmail_reply:"Ask", gmail_delete:"Ask",
+    cal_view:"Allow", cal_create:"Ask", cal_delete:"Allow",
+    web_visit:"Allow", web_submit:"Allow", web_download:"Allow", web_upload:"Ask", web_password:"Allow" };
+  var perms = JSON.parse(JSON.stringify(INIT));
+  var logEl = document.getElementById("permLog");
+  function plog(text, cls){
+    var d = document.createElement("div");
+    if (cls) d.className = cls;
+    var w = document.createElement("span"); w.className = "who"; w.textContent = "体检员（模拟）：";
+    d.appendChild(w); d.appendChild(document.createTextNode(text));
+    logEl.appendChild(d);
+    while (logEl.children.length > 5) logEl.removeChild(logEl.firstChild);
+  }
+  function specialFB(key, val){
+    if (key === "gmail_send" && val === "Allow") return ["⚠️ 危险：发送邮件 = Allow，它可以不经你确认就以你的名义发邮件——这是全场最该改的一项。", "bad"];
+    if (key === "gmail_send" && val === "Deny") return ["✅ 讲师同款：发送 = Deny。它能读一辈子邮件，也发不出去一个字。", "good"];
+    if (key === "gmail_send" && val === "Ask") return ["可以：发送 = Ask，每次发之前弹卡问你。新手更推荐直接 Deny。", ""];
+    if (key === "gmail_reply" && val === "Allow") return ["⚠️ 回复/转发也是往外发字，Allow 等于放弃审核。建议 Ask 或 Deny。", "bad"];
+    if (key === "gmail_read" && val === "Deny") return ["注意：读取 = Deny，它就看不了你的邮件了——读类动作一般放心 Allow。", ""];
+    if (key === "cal_delete" && val === "Allow") return ["⚠️ 删除活动 = Allow 有风险：删错一个重要日程可能直接误事。建议 Ask 或 Deny。", "bad"];
+    if (key === "web_submit" && val === "Allow") return ["⚠️ 提交表单等于对外发话，Allow 等于它能替你把表交出去。建议 Ask。", "bad"];
+    if (key === "web_password" && val === "Allow") return ["⚠️ 填密码 = Allow，它登录任何已存网站都不问你。建议 Ask。", "bad"];
+    if (key === "web_upload") return ["上传文件天生只有 Ask / Deny 两档——系统本身就对它最谨慎。", ""];
+    return null;
+  }
+  function safeCount(){
+    var n = 0;
+    for (var k in SAFE) if (SAFE[k].indexOf(perms[k]) !== -1) n++;
+    return n;
+  }
+  function paintPerms(){
+    document.querySelectorAll("[data-perm]").forEach(function(row){
+      var key = row.getAttribute("data-perm");
+      row.querySelectorAll(".seg button").forEach(function(b){
+        b.classList.toggle("on", b.getAttribute("data-val") === perms[key]);
+      });
+    });
+    var n = safeCount();
+    var bar = document.getElementById("permScore");
+    bar.style.width = (n / 12 * 100) + "%";
+    bar.style.background = n === 12 ? "var(--green)" : "var(--amber)";
+    document.getElementById("permScoreTxt").textContent = "安全项 " + n + " / 12" + (n === 12 ? " · 权限树全绿 ✅" : "");
+  }
+  document.querySelectorAll("[data-perm] .seg button").forEach(function(b){
+    b.addEventListener("click", function(){
+      var key = b.closest("[data-perm]").getAttribute("data-perm");
+      var val = b.getAttribute("data-val");
+      if (perms[key] === val) return;
+      perms[key] = val;
+      paintPerms();
+      var sp = specialFB(key, val);
+      if (sp) plog(sp[0], sp[1]);
+      else plog("已更新：" + NAMES[key] + " → " + val + "。");
+      updateStatus();
+    });
+  });
+  var syncOn = true;
+  document.getElementById("syncTgl").addEventListener("click", function(){
+    syncOn = !syncOn;
+    this.setAttribute("aria-pressed", syncOn ? "true" : "false");
+    plog(syncOn ? "背景同步开着：你没打开 App 时，它也会定时查 Gmail 并给你推送。" : "背景同步已关：它只在你正打开 App 用它时，才碰 Gmail——安静多了。");
+  });
+  document.getElementById("applyRec").addEventListener("click", function(){
+    perms = JSON.parse(JSON.stringify(REC));
+    paintPerms();
+    plog("已套用推荐配置：读的 Allow、写的 Ask、发送和删除该 Deny 的 Deny。对照着理解每一项，再自己拨一遍手感记得更牢。", "good");
+    updateStatus();
+  });
+  document.getElementById("permReset").addEventListener("click", function(){
+    perms = JSON.parse(JSON.stringify(INIT));
+    paintPerms();
+    plog("已恢复初始配置——危险项又回来了，重新改一遍吧。");
+    updateStatus();
+  });
+
+  /* ---------- 旧放行撤销 ---------- */
+  var revoked = 0;
+  document.querySelectorAll(".recip-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      var row = b.closest(".recip-row");
+      if (row.classList.contains("revoked")) return;
+      row.classList.add("revoked");
+      b.outerHTML = '<span class="rev-tag">已撤销 ✓</span>';
+      revoked++;
+      plog("已撤销一条旧放行。以后给这个对象发消息，它必须先弹卡问你。", "good");
+      updateStatus();
+    });
+  });
+
+  /* ---------- 凭据库 ---------- */
+  var creds = { shop:"auto", bank:"auto" };
+  function paintCreds(){
+    document.querySelectorAll("[data-cred]").forEach(function(row){
+      var key = row.getAttribute("data-cred");
+      row.querySelectorAll(".seg button").forEach(function(b){
+        b.classList.toggle("on", b.getAttribute("data-val") === creds[key]);
+      });
+    });
+  }
+  document.querySelectorAll("[data-cred] .seg button").forEach(function(b){
+    b.addEventListener("click", function(){
+      var key = b.closest("[data-cred]").getAttribute("data-cred");
+      var val = b.getAttribute("data-val");
+      if (creds[key] === val) return;
+      creds[key] = val;
+      paintCreds();
+      if (key === "bank" && val === "ask") plog("✅ 网上银行改回「每次先问我」——最高敏感的登录，就该每次都过你这一关。", "good");
+      else if (key === "bank" && val === "auto") plog("⚠️ 网上银行设成自动使用，等于它随时能替你登录银行。强烈建议改回「每次先问我」。", "bad");
+      else if (key === "shop") plog(val === "auto" ? "超市这类低风险站设自动使用，可以接受——图个方便。" : "超市登录设成「每次先问我」：更稳，代价是每次多点一下。两种都行，看你的取舍。");
+      updateStatus();
+    });
+  });
+
+  /* ---------- 审批卡实操 ---------- */
+  var QUIZ = [
+    { t:"把一封报价邮件发给一位新客户（内容你还没看过）", d:"动作：发送邮件 · 对象：新客户", c:"deny",
+      fb:"发送类动作不能闭眼批。先拒绝（或要求先看内容），逐字看过、确认无误，再让它发。" },
+    { t:"读取你的日历，找出下周哪天下午有空", d:"动作：读取日历 · 只读，不改动任何东西", c:"approve",
+      fb:"只读动作，对象和目的都清楚，不改动任何东西——放心批。" },
+    { t:"把一份写有银行账号的 PDF 上传到一个没听说过的网站", d:"动作：上传文件 · 内容敏感", c:"deny",
+      fb:"红线！带银行账号的文件永远不上传，更别说陌生网站。直接拒绝，没得商量。" },
+    { t:"现在是凌晨 2:13，定时任务请求给你的联系人发一条提醒消息", d:"动作：发送消息 · 时间异常", c:"deny",
+      fb:"内容也许没问题，但时段不对——半夜发消息会打扰别人。拒绝，并回去把任务措辞加上「早上 8 点后再发送」。" },
+    { t:"用保险库里保存的密码，登录你常去的超市网站查本周 flyer", d:"动作：填已存密码＋访问网站 · 只读查询", c:"approve",
+      fb:"这正是「每次先问我」的设计用途：对象明确、只读查价，你在卡上点了批，它才登录。" },
+    { t:"删除记忆里「旧公寓地址」那一条（上周你亲口说过要删）", d:"动作：删除一条记忆 · 你已确认过", c:"approve",
+      fb:"这条删除是你上周明确交代过的。可以批——但批之前先看清删的是哪一条，这个习惯要留住。" }
+  ];
+  var qi = 0, qScore = 0, quizPassed = false;
+  var quizBox = document.getElementById("quizBox");
+  function renderQuiz(){
+    quizBox.innerHTML = "";
+    if (qi >= QUIZ.length){
+      var done = document.createElement("div");
+      done.className = "appr";
+      done.innerHTML = "";
+      var h = document.createElement("h4"); h.textContent = "🏁 审批卡实操完成";
+      var p = document.createElement("p"); p.className = "req";
+      p.textContent = "得分 " + qScore + " / " + QUIZ.length + (qScore >= 5 ? " · 合格 ✅ 你的刹车踩得很稳。" : " · 还差一点：记住三句话——发送先看、敏感拒批、时段不对也拒。点下面「再练一遍」。");
+      done.appendChild(h); done.appendChild(p);
+      quizBox.appendChild(done);
+      document.getElementById("quizReset").style.display = "";
+      quizPassed = qScore >= 5;
+      updateStatus();
+      return;
+    }
+    var q = QUIZ[qi];
+    var card = document.createElement("div"); card.className = "appr";
+    var h = document.createElement("h4"); h.textContent = "🔔 审批请求 · 第 " + (qi + 1) + " / " + QUIZ.length + " 题";
+    var t = document.createElement("p"); t.className = "req"; t.textContent = "Muse 请求：" + q.t;
+    var d = document.createElement("p"); d.className = "detail"; d.textContent = q.d;
+    var row = document.createElement("div"); row.className = "btn-row";
+    var bNo = document.createElement("button"); bNo.className = "btn danger"; bNo.textContent = "拒绝";
+    var bYes = document.createElement("button"); bYes.className = "btn"; bYes.textContent = "批准";
+    var fb = document.createElement("div"); fb.className = "fb";
+    function answer(choice){
+      var right = choice === q.c;
+      if (right) qScore++;
+      bNo.disabled = true; bYes.disabled = true;
+      fb.classList.add("show", right ? "right" : "wrong");
+      fb.textContent = (right ? "✅ 判断正确。" : "❌ 这题应该" + (q.c === "approve" ? "批准" : "拒绝") + "。") + q.fb;
+      var next = document.createElement("button"); next.className = "btn ghost"; next.style.marginTop = "10px";
+      next.textContent = qi === QUIZ.length - 1 ? "看成绩 →" : "下一题 →";
+      next.addEventListener("click", function(){ qi++; renderQuiz(); });
+      card.appendChild(next);
+    }
+    bNo.addEventListener("click", function(){ answer("deny"); });
+    bYes.addEventListener("click", function(){ answer("approve"); });
+    row.appendChild(bNo); row.appendChild(bYes);
+    card.appendChild(h); card.appendChild(t); card.appendChild(d); card.appendChild(row); card.appendChild(fb);
+    quizBox.appendChild(card);
+  }
+  document.getElementById("quizReset").addEventListener("click", function(){
+    qi = 0; qScore = 0; quizPassed = false;
+    document.getElementById("quizReset").style.display = "none";
+    renderQuiz(); updateStatus();
+  });
+
+  /* ---------- 过关判定 ---------- */
+  function updateStatus(){
+    var parts = [
+      ["权限树全绿（12/12 安全）", safeCount() === 12],
+      ["撤销至少一条旧放行", revoked >= 1],
+      ["银行登录设为「每次先问我」", creds.bank === "ask"],
+      ["审批卡实操 ≥ 5/6", quizPassed]
+    ];
+    var el = document.getElementById("m2StatusTxt");
+    el.innerHTML = "";
+    parts.forEach(function(pt, i){
+      var s = document.createElement("span");
+      if (pt[1]) s.className = "ok";
+      s.textContent = (pt[1] ? " ✓ " : " · ") + pt[0] + (i < parts.length - 1 ? "；" : "");
+      el.appendChild(s);
+    });
+    if (parts.every(function(pt){ return pt[1]; })){
+      document.getElementById("m2Done").classList.add("show");
+      saveP({ m2:true });
+      renderBadges();
+    }
+  }
+
+  paintPerms(); paintCreds(); renderQuiz(); updateStatus(); renderBadges();
 })();
 </script>
 </body>

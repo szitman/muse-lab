@@ -112,6 +112,7 @@
     <a href="#s1">① 派活三段式</a>
     <a href="#s2">② 让它认识你</a>
     <a href="#s3">③ Settings 地图</a>
+    <a href="#s3b">③＋ 接邮箱</a>
     <a href="#s4">④ 权限三档</a>
     <a href="#s5">⑤ 五个练习</a>
     <a href="#s6">⑥ 红线与自查</a>
@@ -122,6 +123,7 @@
 
 <!-- ================= 1 派活三段式 ================= -->
 <section id="s1" class="card">
+  <span class="stage">阶段一 · 入门</span>
   <h2>① 派活三段式（万能句式）</h2>
   <p>和聊天 AI 最大的区别：不是"提问"，是"派活"。派活就三句话——<b>背景</b>（我是谁、住哪、什么情况）＋ <b>任务</b>（具体要什么结果）＋ <b>验收</b>（格式、来源、查不到怎么办）。区别不在 AI 变聪明了，在你交代得像不像个"主管"。</p>
   <div class="quote">❌ 聊天问法："鸡蛋多少钱？" → 得到一段泛泛而谈。<br>✅ 派活问法："我住在 Markham，每周在 T&amp;T 和 Freshway 买菜。帮我查这两家本周 flyer 里的鸡蛋价格，只报 flyer 上真有的，查不到就明说查不到。"</div>
@@ -150,6 +152,7 @@
 
 <!-- ================= 3 Settings 地图 ================= -->
 <section id="s3" class="card">
+  <span class="stage">阶段二 · 基础</span>
   <h2>③ Settings 地图（设置页 = 方向盘和刹车）</h2>
   <p>入口：iPhone 在聊天界面点齿轮 ⚙️；安卓打开左侧边栏，点顶部的齿轮；电脑网页版在左下角菜单里。</p>
   <table class="map">
@@ -163,6 +166,24 @@
     <tr><td class="k">Data controls</td><td>可关"用我的数据训练"；可导入旧 AI 的记忆（Import memory）；可导出全部数据；Reset 是清空记忆的核按钮，<b>慎用</b>。</td></tr>
   </table>
   <div class="real-app"><b>🔎 心里没底时，点头像看三页：</b><b>Activity</b>（它最近干过什么，全有记录）、<b>Approvals</b>（等你批准的事）、<b>Upcoming</b>（你的定时任务，能看能删）。自动化不是黑箱。</div>
+</section>
+
+<!-- ================= 3b 连接邮箱 ================= -->
+<section id="s3b" class="card">
+  <span class="stage">阶段二 · 基础</span>
+  <h2>③＋ 连接邮箱（只读）· 四步跟做</h2>
+  <p>设置页认完门，就接第一个真账号练手——邮箱，而且<b>只接读取</b>。整个过程密码只输在谷歌自己的页面上：</p>
+  <div class="steps">
+    <div class="step"><b>第 1 步 · 找到入口</b>打开 Settings → Connectors，在列表里找到 Gmail，点它。</div>
+    <div class="step"><b>第 2 步 · 去谷歌登录</b>页面会跳到谷歌的登录页——密码是输给谷歌的，Muse 看不到，也存不下。</div>
+    <div class="step"><b>第 3 步 · 确认接通</b>登录完自动跳回 Muse，Gmail 显示"已连接"，就是接通了。</div>
+    <div class="step"><b>第 4 步 · 试读一封</b>对它说："汇总我今天的重要邮件。"读得到、列得出 = 真接通了。</div>
+  </div>
+  <ul class="tight">
+    <li><b>只读原则</b>：接的时候如果问到权限范围，先只给读取；发送、删除保持 Ask 或 Deny（下一节细讲三档）。</li>
+    <li><b>没有 Gmail 怎么办</b>：先接日历，任务换成"看看我这周有什么安排"，一样练得通。</li>
+    <li><b>验收习惯从第一次就养成</b>：涉及钱和证件的邮件，让它给出处——哪封邮件、哪一天。</li>
+  </ul>
 </section>
 
 <!-- ================= 4 权限三档 ================= -->
@@ -180,6 +201,9 @@
     <li><b>讲师的示范设置</b>：Gmail 的"发送邮件" = Deny——它能读一辈子邮件，也发不出去一个字。这不是靠它自觉，是开关就这么定的。</li>
     <li>每个已连接账号在 Connectors 里点开，也能单独改同一套权限。</li>
   </ul>
+  <h3>🔔 审批卡初体验（3 题）</h3>
+  <p>设成 Ask 的动作，动手前都会弹一张审批卡问你。先在这里练手感：下面三张卡，该点<b>批准</b>还是<b>拒绝</b>？</p>
+  <div id="miniQuiz"></div>
 </section>
 
 <!-- ================= 5 五个练习 ================= -->
@@ -327,6 +351,68 @@
     });
   });
   renderChecks();
+})();
+</script>
+
+<style>
+  .stage{display:inline-block;background:var(--blue);color:#fff;border-radius:999px;padding:3px 12px;font-size:13.5px;margin-bottom:8px;}
+  .steps{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;}
+  @media (max-width:640px){.steps{grid-template-columns:1fr;}}
+  .step{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14.5px;}
+  .step b{color:var(--blue-dark);display:block;margin-bottom:2px;}
+  .btn.danger{background:#fff;color:var(--red);border-color:var(--red);}
+  .appr{border:2px solid var(--amber);border-radius:14px;padding:14px 16px;margin-top:12px;background:#fffdf6;}
+  .appr h4{margin:0 0 6px;font-size:16.5px;color:#7a5200;}
+  .appr .req{font-size:16px;margin:6px 0;}
+  .appr .detail{font-size:14.5px;color:var(--grey);margin:4px 0;}
+  .appr .fb{display:none;border-radius:10px;padding:10px 12px;margin-top:10px;font-size:15px;}
+  .appr .fb.show{display:block;}
+  .appr .fb.right{background:#e3f2e5;color:#14541d;}
+  .appr .fb.wrong{background:#fdeeed;color:#7c1d17;}
+</style>
+<script>
+(function(){
+  "use strict";
+  var Q = [
+    { t:"读取你的邮箱，把今天的重要邮件汇总给你", d:"动作：读取邮件 · 只读", c:"approve",
+      fb:"只读、不改动任何东西，这正是你接邮箱的目的——批准。" },
+    { t:"替你发送一封邮件（内容你还没看过）", d:"动作：发送邮件 · 对外发话", c:"deny",
+      fb:"没看过的内容不能发。先拒绝，让它把内容给你看过再说——这就是把发送设成 Ask 的意义。" },
+    { t:"删除你日历上的一个活动", d:"动作：删除 · 删了找不回来", c:"deny",
+      fb:"删除类动作先核对：删的是哪个活动、是不是删错了。确认无误之前，先拒绝。" }
+  ];
+  var box = document.getElementById("miniQuiz");
+  var answered = 0, score = 0;
+  var scoreLine = document.createElement("p");
+  scoreLine.className = "muted"; scoreLine.style.marginTop = "12px";
+  Q.forEach(function(q, idx){
+    var card = document.createElement("div"); card.className = "appr";
+    var h = document.createElement("h4"); h.textContent = "🔔 审批请求 " + (idx + 1) + " / " + Q.length;
+    var t = document.createElement("p"); t.className = "req"; t.textContent = "Muse 请求：" + q.t;
+    var d = document.createElement("p"); d.className = "detail"; d.textContent = q.d;
+    var row = document.createElement("div"); row.className = "btn-row";
+    var bNo = document.createElement("button"); bNo.className = "btn danger"; bNo.textContent = "拒绝";
+    var bYes = document.createElement("button"); bYes.className = "btn"; bYes.textContent = "批准";
+    var fb = document.createElement("div"); fb.className = "fb";
+    function ans(choice){
+      if (bNo.disabled) return;
+      bNo.disabled = true; bYes.disabled = true;
+      var right = choice === q.c;
+      if (right) score++;
+      answered++;
+      fb.classList.add("show", right ? "right" : "wrong");
+      fb.textContent = (right ? "✅ 对。" : "❌ 这题应该" + (q.c === "approve" ? "批准" : "拒绝") + "。") + q.fb;
+      if (answered === Q.length){
+        scoreLine.textContent = "三题答完，得分 " + score + " / " + Q.length + (score === Q.length ? " · 刹车感很好！第二课里还有 6 题进阶版等你。" : " · 没关系，记住：只读的放心批，发送和删除先核对。");
+      }
+    }
+    bNo.addEventListener("click", function(){ ans("deny"); });
+    bYes.addEventListener("click", function(){ ans("approve"); });
+    row.appendChild(bNo); row.appendChild(bYes);
+    card.appendChild(h); card.appendChild(t); card.appendChild(d); card.appendChild(row); card.appendChild(fb);
+    box.appendChild(card);
+  });
+  box.appendChild(scoreLine);
 })();
 </script>
 </body>
