@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第一次课回顾 · Muse 实操实验室</title>
+<style>
+  :root{
+    --blue:#2f5aa6; --blue-dark:#23406e; --ink:#1a1a1a; --grey:#5a6472;
+    --red:#b3372e; --green:#1e7d32; --bg:#f4f7fc; --card:#ffffff;
+    --line:#d8e1f0; --soft:#eef3fb; --amber:#9a6a00; --amber-bg:#fdf3e0;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+       background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 14px 48px;}
+  section{scroll-margin-top:76px;}
+
+  header.hero{background:linear-gradient(135deg,#3d6db5 0%,var(--blue-dark) 100%);color:#fff;padding:28px 0 22px;}
+  header.hero .wrap{padding-bottom:0;}
+  header.hero h1{margin:0 0 4px;font-size:27px;letter-spacing:.5px;}
+  header.hero .sub{opacity:.92;font-size:15px;margin:0 0 4px;}
+  header.hero a{color:#cfe1ff;}
+  .notice{background:#fff4f2;border-bottom:2px solid var(--red);color:#6d1f19;padding:10px 0;font-size:14.5px;}
+  .notice .wrap{padding-bottom:0;}
+  .notice b{color:var(--red);}
+
+  nav.chips{position:sticky;top:0;z-index:50;background:rgba(244,247,252,.96);
+    border-bottom:1px solid var(--line);padding:8px 0;}
+  nav.chips .wrap{padding-bottom:0;display:flex;gap:8px;overflow-x:auto;white-space:nowrap;}
+  nav.chips a{flex:0 0 auto;text-decoration:none;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14.5px;min-height:40px;
+    display:inline-flex;align-items:center;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:18px 18px 16px;margin-top:18px;box-shadow:0 1px 3px rgba(35,64,110,.06);}
+  .card h2{margin:0 0 6px;font-size:21px;color:var(--blue-dark);}
+  .card h3{margin:16px 0 6px;font-size:17px;color:var(--blue-dark);}
+  .card p{margin:6px 0;}
+  .muted{color:var(--grey);font-size:14.5px;}
+  ul.tight{margin:6px 0;padding-left:20px;}
+  ul.tight li{margin:3px 0;}
+
+  .btn{appearance:none;border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:10px;
+    padding:11px 18px;font-size:15.5px;min-height:48px;cursor:pointer;font-family:inherit;}
+  .btn:active{opacity:.85;}
+  .btn.ghost{background:#fff;color:var(--blue-dark);}
+  .btn.small{min-height:42px;padding:7px 14px;font-size:14.5px;}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+
+  .quote{background:var(--soft);border-radius:10px;padding:12px 14px;margin:10px 0;font-size:15.5px;}
+  .tpl-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+  @media (max-width:640px){.tpl-grid{grid-template-columns:1fr;}}
+  .tpl-grid label{font-size:14px;color:var(--grey);display:block;}
+  .tpl-grid input{width:100%;font-size:16px;padding:10px;border:1px solid var(--line);border-radius:10px;
+    min-height:48px;font-family:inherit;margin-top:4px;}
+  .output{background:#0f1c33;color:#dbe7ff;border-radius:12px;padding:12px 14px;margin-top:12px;font-size:15.5px;min-height:52px;}
+
+  table.map{border-collapse:collapse;width:100%;font-size:15px;margin-top:8px;}
+  table.map td{padding:8px 8px;border-bottom:1px solid var(--line);vertical-align:top;}
+  table.map td.k{font-weight:700;white-space:nowrap;color:var(--blue-dark);width:32%;}
+
+  .tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px;}
+  @media (max-width:640px){.tier-grid{grid-template-columns:1fr;}}
+  .tier{border-radius:12px;padding:12px 14px;border:1px solid var(--line);}
+  .tier b{display:block;font-size:16.5px;margin-bottom:2px;}
+  .tier.allow{background:#e9f6ec;} .tier.allow b{color:var(--green);}
+  .tier.ask{background:var(--amber-bg);} .tier.ask b{color:var(--amber);}
+  .tier.deny{background:#fdeeed;} .tier.deny b{color:var(--red);}
+  .tier span{font-size:14.5px;color:#333;}
+
+  .case{border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px;}
+  .case h3{margin:0 0 4px;}
+  .case .check{color:var(--blue-dark);font-size:14.5px;}
+
+  .redbox{border:1.5px solid var(--red);border-radius:12px;padding:14px 16px;margin-top:12px;background:#fff8f7;}
+  .redbox h3{color:var(--red);margin-top:0;}
+  .check-item{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;
+    padding:12px 14px;margin-top:10px;background:#fff;cursor:pointer;}
+  .check-item input{width:22px;height:22px;margin-top:2px;flex:0 0 auto;accent-color:var(--blue);}
+  .check-item.done{background:var(--soft);}
+  .check-item .t{font-size:15.5px;}
+  .progress-outer{background:var(--soft);border:1px solid var(--line);border-radius:999px;height:16px;overflow:hidden;margin-top:8px;}
+  .progress-inner{background:var(--green);height:100%;width:0%;transition:width .5s;}
+  .real-app{background:var(--soft);border:1px solid var(--line);border-left:5px solid var(--blue);
+    border-radius:10px;padding:12px 14px;margin-top:16px;font-size:15px;}
+  .real-app b{color:var(--blue-dark);}
+
+  footer{margin-top:26px;background:#fff;border-top:2px solid var(--red);}
+  footer .wrap{padding-top:14px;padding-bottom:26px;}
+  footer .redline{color:var(--red);font-weight:700;}
+  footer p{margin:5px 0;font-size:14.5px;color:var(--grey);}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>第一次课 · 基础回顾</h1>
+    <p class="sub">从"聊天"到"派活"——这一页是第一次课的完整复习版，随时打开查看、照着练习。</p>
+    <p class="sub">学完这一课，接着学第二次课：<a href="index.html">管记忆 · 管权限 · 管任务 →</a></p>
+  </div>
+</header>
+
+<div class="notice">
+  <div class="wrap">📌 <b>使用说明：</b>本页是复习材料，里面的提示词模板点「复制」就能拿去粘贴到你自己手机上的 Muse 里用。练习请在<b>真 App</b> 里做；本页不连接你的账号，<b>切勿输入真实密码、银行卡号、SIN 等敏感信息</b>。</div>
+</div>
+
+<nav class="chips">
+  <div class="wrap">
+    <a href="#s1">① 派活三段式</a>
+    <a href="#s2">② 让它认识你</a>
+    <a href="#s3">③ Settings 地图</a>
+    <a href="#s4">④ 权限三档</a>
+    <a href="#s5">⑤ 五个练习</a>
+    <a href="#s6">⑥ 红线与自查</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ================= 1 派活三段式 ================= -->
+<section id="s1" class="card">
+  <h2>① 派活三段式（万能句式）</h2>
+  <p>和聊天 AI 最大的区别：不是"提问"，是"派活"。派活就三句话——<b>背景</b>（我是谁、住哪、什么情况）＋ <b>任务</b>（具体要什么结果）＋ <b>验收</b>（格式、来源、查不到怎么办）。区别不在 AI 变聪明了，在你交代得像不像个"主管"。</p>
+  <div class="quote">❌ 聊天问法："鸡蛋多少钱？" → 得到一段泛泛而谈。<br>✅ 派活问法："我住在 Markham，每周在 T&amp;T 和 Freshway 买菜。帮我查这两家本周 flyer 里的鸡蛋价格，只报 flyer 上真有的，查不到就明说查不到。"</div>
+  <p>涉及钱、日期、政策，结尾永远加一句：<b>"出处呢？"</b></p>
+
+  <h3>✍️ 练一练：拼出你的第一句派活</h3>
+  <p class="muted">把下面四格换成你自己的情况，下方会自动拼好一整句，复制后粘贴到 Muse 里就能用。</p>
+  <div class="tpl-grid">
+    <label>我住在<input type="text" id="fCity" value="Markham"></label>
+    <label>常去的超市一<input type="text" id="fStore1" value="T&T"></label>
+    <label>常去的超市二<input type="text" id="fStore2" value="Freshway"></label>
+    <label>想查的商品<input type="text" id="fItem" value="鸡蛋"></label>
+  </div>
+  <div class="output" id="tplOut"></div>
+  <div class="btn-row"><button class="btn" data-copy-target="tplOut">📋 复制这句派活</button></div>
+</section>
+
+<!-- ================= 2 让它认识你 ================= -->
+<section id="s2" class="card">
+  <h2>② 让它认识你（只做一次）</h2>
+  <p>把<b>四件套</b>告诉它：<b>我是谁 / 住哪一带 / 家里有谁 / 我最关心什么</b>。它会记住你——之后每次对话都不再从零开始。只说愿意说的，住址说到区域即可，不用门牌号。</p>
+  <div class="quote" id="introTpl">我叫＿＿，住在＿＿一带。家里有＿＿。我最关心三件事：＿＿、＿＿、＿＿。以后回答我尽量简短，给数字要给来源。</div>
+  <div class="btn-row"><button class="btn" data-copy-target="introTpl">📋 复制自我介绍模板</button></div>
+  <div class="real-app"><b>✅ 验证它真记住了：</b>教完之后，<b>新开一个对话</b>，只问一句："你知道我住哪、家里几口人吗？"——答得出来，就说明记忆是真的。记错了直接说"改成……"，它会当场更新。</div>
+</section>
+
+<!-- ================= 3 Settings 地图 ================= -->
+<section id="s3" class="card">
+  <h2>③ Settings 地图（设置页 = 方向盘和刹车）</h2>
+  <p>入口：iPhone 在聊天界面点齿轮 ⚙️；安卓打开左侧边栏，点顶部的齿轮；电脑网页版在左下角菜单里。</p>
+  <table class="map">
+    <tr><td class="k">Connectors</td><td>连接 Gmail、日历、网盘等账号的地方。接的时候会跳到账号自己的登录页，<b>密码是输给谷歌的，Muse 看不到</b>。</td></tr>
+    <tr><td class="k">Permissions</td><td><b>最重要的一页</b>：每个动作单独设 Allow / Ask / Deny。</td></tr>
+    <tr><td class="k">Secure credentials</td><td>密码保险库，加密保存，Muse 看不到明文；每个登录选"每次先问我"最稳妥。</td></tr>
+    <tr><td class="k">Wallet</td><td>绑卡只为结账方便——<b>每一笔付款都要你本人在审批卡上点确认</b>，没确认扣不了款。</td></tr>
+    <tr><td class="k">Devices</td><td>配对的手机；日历、联系人、定位等每项可单独开关，定位选"使用 App 时"够用。</td></tr>
+    <tr><td class="k">Notifications</td><td><b>务必打开</b>——不打开，提醒到不了、审批弹不出来，自动化等于白设。</td></tr>
+    <tr><td class="k">Appearance</td><td>主题、深浅色；Muse 的名字和头像也是你定的，点头像就能改。</td></tr>
+    <tr><td class="k">Data controls</td><td>可关"用我的数据训练"；可导入旧 AI 的记忆（Import memory）；可导出全部数据；Reset 是清空记忆的核按钮，<b>慎用</b>。</td></tr>
+  </table>
+  <div class="real-app"><b>🔎 心里没底时，点头像看三页：</b><b>Activity</b>（它最近干过什么，全有记录）、<b>Approvals</b>（等你批准的事）、<b>Upcoming</b>（你的定时任务，能看能删）。自动化不是黑箱。</div>
+</section>
+
+<!-- ================= 4 权限三档 ================= -->
+<section id="s4" class="card">
+  <h2>④ 权限三档怎么选</h2>
+  <p>连接决定它能干什么，权限决定它能干到哪一步。每个动作都有三档：</p>
+  <div class="tier-grid">
+    <div class="tier allow"><b>Allow · 直接做</b><span>读邮件、查日历、查天气——只读不改的动作。</span></div>
+    <div class="tier ask"><b>Ask · 先问我</b><span>发消息、改日程、提交表单——动手前弹审批卡，你点了才算数。</span></div>
+    <div class="tier deny"><b>Deny · 禁止</b><span>新手建议：发邮件、删东西先设这档，熟练了再放。</span></div>
+  </div>
+  <p>口诀：<b>读的放行，写的要问，花钱的必审。</b></p>
+  <ul class="tight">
+    <li><b>审批卡</b>：凡是设成 Ask 的动作，它动手前会弹一张卡，写清楚要做什么。安卓用户注意：审批通知在通知栏里<b>划掉 = 拒绝</b>，别手滑。</li>
+    <li><b>讲师的示范设置</b>：Gmail 的"发送邮件" = Deny——它能读一辈子邮件，也发不出去一个字。这不是靠它自觉，是开关就这么定的。</li>
+    <li>每个已连接账号在 Connectors 里点开，也能单独改同一套权限。</li>
+  </ul>
+</section>
+
+<!-- ================= 5 五个练习 ================= -->
+<section id="s5" class="card">
+  <h2>⑤ 五个练习（第一次课作业 · 五选二）</h2>
+  <p>每个练习的提示词都可以点「复制」，粘贴到 Muse 里把"＿＿"换成你自己的情况就能用。一周内完成两个，在微信群晒截图。</p>
+
+  <div class="case">
+    <h3>作业一 · 买菜比价官</h3>
+    <p>选定你常去的两三家超市，让 Muse 每周查一次 flyer，专盯你家的三样常买品。</p>
+    <div class="quote" id="case1">我住＿＿，常去＿＿和＿＿。帮我查本周 flyer 里鸡蛋、牛奶、＿＿的价格，只报 flyer 上真有的，查不到就说没登广告；以后每周四查完发我。</div>
+    <div class="btn-row"><button class="btn small" data-copy-target="case1">📋 复制提示词</button></div>
+    <p class="check">✅ 验收：它给出的每个价格你能在 flyer 上找到出处；"没登广告"和"没打折"要分得清。</p>
+  </div>
+
+  <div class="case">
+    <h3>作业二 · 邮件秘书</h3>
+    <p>接好 Gmail 并保持只读，让它每天晚上把当天需要处理的邮件汇总成一条。</p>
+    <div class="quote" id="case2">每天晚上 8 点，汇总我今天邮件里需要处理的事：发件人＋一句话要点＋截止日期。没有需要处理的就不用发。</div>
+    <div class="btn-row"><button class="btn small" data-copy-target="case2">📋 复制提示词</button></div>
+    <p class="check">✅ 验收：到点收到汇总；点头像 → Upcoming 能看到这个任务躺在那里。</p>
+  </div>
+
+  <div class="case">
+    <h3>作业三 · 英语跟读教练</h3>
+    <p>让它每天给你 3 句简单自然的加拿大日常英语，带录音、慢速，跟读一周。</p>
+    <div class="quote" id="case3">每天早上给我 3 句简单的加拿大日常英语，要录音、慢速，句子用在我买菜和接送孩子的场景里，30 天内不要重复。</div>
+    <div class="btn-row"><button class="btn small" data-copy-target="case3">📋 复制提示词</button></div>
+    <p class="check">✅ 验收：连续 3 天收到句子和录音；选一句最顺口的，录自己跟读的语音发群里。</p>
+  </div>
+
+  <div class="case">
+    <h3>作业四 · 家庭提醒管家</h3>
+    <p>把家里最容易忘的三件事交给它：缴费日、预约、孩子学校截止日，各设一个提前提醒。</p>
+    <div class="quote" id="case4">记一下：每月 15 号交电费，提前两天提醒我；孩子 11 月 12 号前要交学校表格，11 月 10 号早上提醒我。</div>
+    <div class="btn-row"><button class="btn small" data-copy-target="case4">📋 复制提示词</button></div>
+    <p class="check">✅ 验收：Upcoming 里能看到全部提醒；到期真的收到通知（没收到先查 Notifications 开没开）。</p>
+  </div>
+
+  <div class="case">
+    <h3>作业五 · 周末出游规划师</h3>
+    <p>让它按你家真实情况（出发点、孩子年龄、不想开太远）规划一次周末一日游，带备选方案。</p>
+    <div class="quote" id="case5">我住＿＿，一家三口，孩子＿＿岁。这个周六想一日游，单程开车不超过 1 小时，要有停车和吃饭的地方，给我两个方案对比花费和时间。</div>
+    <div class="btn-row"><button class="btn small" data-copy-target="case5">📋 复制提示词</button></div>
+    <p class="check">✅ 验收：方案里的地点、营业时间让它给来源；真的去了一处，回来在群里说一句准不准。</p>
+  </div>
+</section>
+
+<!-- ================= 6 红线与自查 ================= -->
+<section id="s6" class="card">
+  <h2>⑥ 安全红线与自查清单</h2>
+  <div class="redbox">
+    <h3>⚠ 安全红线（背下来）</h3>
+    <ul class="tight">
+      <li>带 <b>SIN（工卡号）、银行卡号、密码</b> 的文件，永远不上传。</li>
+      <li><b>邮箱先只读</b>：发送、删除类权限保持 Ask 或 Deny，熟练了再放。</li>
+      <li><b>付款必确认</b>：任何要你点确认的卡片，看清金额和对象再点。</li>
+      <li><b>AI 会一本正经地编</b>：涉及钱、日期、政策，一律追问一句"出处呢？"——给不出来源，就别当真。</li>
+    </ul>
+  </div>
+
+  <h3>✅ 自查清单（勾选进度存在本机浏览器里）</h3>
+  <div id="checkList">
+    <label class="check-item"><input type="checkbox" data-k="c1"><span class="t">设置自查 1：Settings → Permissions 里，<b>发邮件、删东西</b> 已设为 Ask 或 Deny</span></label>
+    <label class="check-item"><input type="checkbox" data-k="c2"><span class="t">设置自查 2：Settings → <b>Notifications 已打开</b></span></label>
+    <label class="check-item"><input type="checkbox" data-k="c3"><span class="t">设置自查 3：Secure credentials 里已保存的登录选的是<b>「每次先问我」</b></span></label>
+    <label class="check-item"><input type="checkbox" data-k="c4"><span class="t">本周小目标 1：交代<b>四件套</b>并新开对话验证它记得</span></label>
+    <label class="check-item"><input type="checkbox" data-k="c5"><span class="t">本周小目标 2：接好<b>邮箱（只读）</b>并让它汇总一次邮件</span></label>
+    <label class="check-item"><input type="checkbox" data-k="c6"><span class="t">本周小目标 3：设一个<b>每天/每周自动跑</b>的任务，并在 Upcoming 里确认它在</span></label>
+  </div>
+  <div class="progress-outer"><div class="progress-inner" id="chkProgress"></div></div>
+  <p class="muted" id="chkProgressTxt">已完成 0 / 6</p>
+</section>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p class="redline">红线不变：带 SIN、银行卡号、密码的文件永远不上传 · 涉及钱和日期，永远追问一句"出处呢？"</p>
+    <p>本页为第一次课复习材料，内容与讲师课件一致；界面以你手机上的实际 App 为准。本页不收集、不上传任何数据，勾选进度只保存在本机浏览器里。</p>
+    <p><a href="index.html">→ 第二次课：Muse 实操实验室（管记忆 · 管权限 · 管任务）</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- 派活模板生成器 ---------- */
+  function buildTpl(){
+    function v(id){ var el = document.getElementById(id); return (el && el.value.trim()) || el.getAttribute("value") || ""; }
+    var s = "我住在" + v("fCity") + "，每周在 " + v("fStore1") + " 和 " + v("fStore2") +
+            " 买菜。帮我查这两家本周 flyer 里" + v("fItem") +
+            "的价格，只报 flyer 上真有的，查不到就明说查不到。";
+    document.getElementById("tplOut").textContent = s;
+  }
+  ["fCity","fStore1","fStore2","fItem"].forEach(function(id){
+    document.getElementById(id).addEventListener("input", buildTpl);
+  });
+  buildTpl();
+
+  /* ---------- 复制按钮 ---------- */
+  function copyText(text, btn){
+    function ok(){ var old = btn.textContent; btn.textContent = "✅ 已复制，去粘贴吧"; setTimeout(function(){ btn.textContent = old; }, 1800); }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(ok, function(){ fallback(); });
+    } else { fallback(); }
+    function fallback(){
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); ok(); }
+      catch(e){ btn.textContent = "请长按上方文字手动复制"; }
+      document.body.removeChild(ta);
+    }
+  }
+  document.querySelectorAll("[data-copy-target]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var el = document.getElementById(btn.getAttribute("data-copy-target"));
+      if (el) copyText(el.textContent.trim(), btn);
+    });
+  });
+
+  /* ---------- 自查清单（本机保存） ---------- */
+  var KEY = "museLab.lesson1.v1";
+  var checks = {};
+  try { checks = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch(e){ checks = {}; }
+  var boxes = document.querySelectorAll("#checkList input[type=checkbox]");
+  function renderChecks(){
+    var n = 0;
+    boxes.forEach(function(b){
+      var on = !!checks[b.getAttribute("data-k")];
+      b.checked = on;
+      b.closest(".check-item").classList.toggle("done", on);
+      if (on) n++;
+    });
+    document.getElementById("chkProgress").style.width = (n / boxes.length * 100) + "%";
+    document.getElementById("chkProgressTxt").textContent = "已完成 " + n + " / " + boxes.length + (n === boxes.length ? " · 全部完成，第一次课的基础就扎实了 🎉" : "");
+  }
+  boxes.forEach(function(b){
+    b.addEventListener("change", function(){
+      checks[b.getAttribute("data-k")] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(checks)); } catch(e){}
+      renderChecks();
+    });
+  });
+  renderChecks();
+})();
+</script>
+</body>
+</html>
