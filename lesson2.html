@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第二次课 · Muse 实操实验室</title>
+<style>
+  :root{
+    --blue:#2f5aa6; --blue-dark:#23406e; --ink:#1a1a1a; --grey:#5a6472;
+    --red:#b3372e; --green:#1e7d32; --bg:#f4f7fc; --card:#ffffff;
+    --line:#d8e1f0; --soft:#eef3fb; --amber:#9a6a00; --amber-bg:#fdf3e0;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+       background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 14px 48px;}
+  section{scroll-margin-top:76px;}
+
+  /* ---------- header ---------- */
+  header.hero{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-dark) 100%);color:#fff;
+    padding:30px 0 24px;margin-bottom:0;}
+  header.hero .wrap{padding-bottom:0;}
+  header.hero h1{margin:0 0 4px;font-size:30px;letter-spacing:.5px;}
+  header.hero .sub{opacity:.92;font-size:15px;margin:0 0 4px;}
+  header.hero .pillars{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+  header.hero .pillars span{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);
+    padding:4px 12px;border-radius:999px;font-size:14px;}
+  .notice{background:#fff4f2;border-bottom:2px solid var(--red);color:#6d1f19;
+    padding:10px 0;font-size:14.5px;}
+  .notice .wrap{padding-bottom:0;}
+  .notice b{color:var(--red);}
+
+  /* ---------- nav ---------- */
+  nav.chips{position:sticky;top:0;z-index:50;background:rgba(244,247,252,.96);
+    border-bottom:1px solid var(--line);padding:8px 0;}
+  nav.chips .wrap{padding-bottom:0;display:flex;gap:8px;overflow-x:auto;white-space:nowrap;}
+  nav.chips a{flex:0 0 auto;text-decoration:none;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14.5px;min-height:40px;
+    display:inline-flex;align-items:center;}
+  nav.chips a:active{background:var(--soft);}
+
+  /* ---------- cards & layout ---------- */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:18px 18px 16px;margin-top:18px;box-shadow:0 1px 3px rgba(35,64,110,.06);}
+  .card h2{margin:0 0 6px;font-size:21px;color:var(--blue-dark);}
+  .card h3{margin:16px 0 6px;font-size:17px;color:var(--blue-dark);}
+  .card p{margin:6px 0;}
+  .muted{color:var(--grey);font-size:14.5px;}
+  .mod-badge{display:inline-block;font-size:12.5px;padding:2px 10px;border-radius:999px;vertical-align:middle;margin-left:8px;}
+  .badge-done{background:#e3f2e5;color:var(--green);border:1px solid #bfe0c4;}
+  .badge-wip{background:var(--amber-bg);color:var(--amber);border:1px solid #ecd9a8;}
+  .badge-todo{background:var(--soft);color:var(--blue-dark);border:1px solid var(--line);}
+
+  .pillar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px;}
+  .pillar{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:12px;}
+  .pillar b{display:block;font-size:17px;color:var(--blue-dark);margin-bottom:2px;}
+  .pillar span{font-size:14px;color:var(--grey);}
+  @media (max-width:640px){.pillar-grid{grid-template-columns:1fr;}}
+
+  .mod-row{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;
+    padding:12px 14px;margin-top:10px;background:#fff;}
+  .mod-row .num{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:var(--blue);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:17px;}
+  .mod-row .txt{flex:1 1 auto;min-width:0;}
+  .mod-row .txt b{font-size:16.5px;}
+  .mod-row .txt div{font-size:14px;color:var(--grey);}
+  .mod-row a.go{flex:0 0 auto;text-decoration:none;background:var(--blue);color:#fff;border-radius:10px;
+    padding:10px 16px;font-size:15px;min-height:46px;display:inline-flex;align-items:center;}
+  .progress-outer{background:var(--soft);border:1px solid var(--line);border-radius:999px;height:16px;overflow:hidden;margin-top:8px;}
+  .progress-inner{background:var(--green);height:100%;width:0%;transition:width .5s;}
+
+  /* ---------- buttons ---------- */
+  .btn{appearance:none;border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:10px;
+    padding:11px 18px;font-size:15.5px;min-height:48px;cursor:pointer;font-family:inherit;}
+  .btn:active{opacity:.85;}
+  .btn.ghost{background:#fff;color:var(--blue-dark);}
+  .btn.small{min-height:42px;padding:7px 14px;font-size:14.5px;}
+  .btn.danger{background:#fff;color:var(--red);border-color:var(--red);}
+  .btn:disabled{opacity:.45;cursor:default;}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+
+  /* ---------- memory module ---------- */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px;}
+  .step{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14.5px;}
+  .step b{color:var(--blue-dark);display:block;margin-bottom:2px;}
+  @media (max-width:640px){.steps{grid-template-columns:1fr;}}
+  .task-box{background:var(--amber-bg);border:1px solid #ecd9a8;border-radius:12px;padding:12px 14px;margin-top:12px;font-size:15px;}
+  .task-box b{color:var(--amber);}
+  .mem-item{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:10px;background:#fff;}
+  .mem-item .tag{display:inline-block;font-size:12px;background:var(--soft);color:var(--blue-dark);
+    border-radius:6px;padding:1px 8px;margin-right:8px;}
+  .mem-item .txt{font-size:16px;}
+  .mem-item .ops{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+  .mem-item .edit-row{display:none;margin-top:10px;gap:8px;}
+  .mem-item.editing .edit-row{display:flex;}
+  .mem-item input[type=text]{flex:1 1 auto;font-size:16px;padding:10px;border:1px solid var(--line);
+    border-radius:10px;min-height:46px;font-family:inherit;min-width:0;}
+  .log{background:#0f1c33;color:#dbe7ff;border-radius:12px;padding:12px 14px;margin-top:14px;
+    font-size:14.5px;min-height:56px;}
+  .log .who{color:#8fb4ff;font-weight:700;}
+  .log div{margin:4px 0;}
+  .chip-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .chip{border:1px dashed var(--blue);background:#fff;color:var(--blue-dark);border-radius:999px;
+    padding:9px 14px;font-size:14.5px;min-height:44px;cursor:pointer;font-family:inherit;}
+  .chip:active{background:var(--soft);}
+  .chip.added{opacity:.45;pointer-events:none;}
+  .add-row{display:flex;gap:8px;margin-top:12px;}
+  .add-row input{flex:1 1 auto;font-size:16px;padding:10px;border:1px solid var(--line);border-radius:10px;
+    min-height:48px;font-family:inherit;min-width:0;}
+  .done-banner{display:none;background:#e3f2e5;border:1px solid #bfe0c4;color:var(--green);
+    border-radius:12px;padding:12px 14px;margin-top:14px;font-size:15.5px;}
+  .done-banner.show{display:block;}
+  .real-app{background:var(--soft);border:1px solid var(--line);border-left:5px solid var(--blue);
+    border-radius:10px;padding:12px 14px;margin-top:16px;font-size:15px;}
+  .real-app b{color:var(--blue-dark);}
+  .warn-inline{color:var(--red);font-size:14px;}
+
+  /* ---------- placeholder modules ---------- */
+  .soon li{margin:3px 0;}
+  ul.tight{margin:6px 0;padding-left:20px;}
+  ul.tight li{margin:3px 0;}
+
+  footer{margin-top:26px;background:#fff;border-top:2px solid var(--red);}
+  footer .wrap{padding-top:14px;padding-bottom:26px;}
+  footer .redline{color:var(--red);font-weight:700;}
+  footer p{margin:5px 0;font-size:14.5px;color:var(--grey);}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>第二次课 · 管记忆、管权限、管任务</h1>
+    <p class="sub">Muse 实操实验室 · 第二次课配套动手练习页 · <a href="index.html" style="color:#cfe1ff;">← 回课程首页</a></p>
+    <p class="sub">上次课大家学会了"问得好"。这次不教提问，教<b>管理</b>——管它的记忆、管它的权限、管它的任务。管好了，它才是员工；管不好，它就是个玩具。</p>
+    <div class="pillars"><span>🧠 管记忆</span><span>🔐 管权限</span><span>🧭 管任务</span></div>
+  </div>
+</header>
+
+<div class="notice">
+  <div class="wrap">⚠️ <b>先说清：本页是教学模拟。</b>页面里的开关、列表、审批卡都是练习用的，不连接你的真实账号，也不会改动你手机上 Muse 的任何设置。练完之后，请回到<b>自己手机上的真 App</b> 里再跟着做一遍。<b>切勿在本页输入真实密码、银行卡号、SIN 等敏感信息。</b></div>
+</div>
+
+<nav class="chips">
+  <div class="wrap">
+    <a href="#home">🏠 课程地图</a>
+    <a href="#m1">① 记忆管理</a>
+    <a href="#m2">② 权限深挖</a>
+    <a href="#m3">③ 多步任务链</a>
+    <a href="#m4">④ 自动化诊所</a>
+    <a href="#m5">⑤ 作业与答疑</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ================= 首页 / 课程地图 ================= -->
+<section id="home" class="card">
+  <h2>课程地图</h2>
+  <p>这堂课专攻聊天 AI 做不到的三件事：它有<b>记忆</b>、能<b>接你的账号</b>、能<b>定点自己跑</b>。下面五个模块，每个都能动手练，练完有完成标记，进度存在你这台手机的浏览器里，关掉页面下次打开还在。</p>
+  <div class="pillar-grid">
+    <div class="pillar"><b>🧠 管记忆</b><span>看它记了什么，改对、删掉不要的——记忆是看得见、改得动的。</span></div>
+    <div class="pillar"><b>🔐 管权限</b><span>把隐私红线变成一个个开关：每个动作单独设 Allow / Ask / Deny。</span></div>
+    <div class="pillar"><b>🧭 管任务</b><span>把一件事串成任务链，把每周重复事改造成定时任务。</span></div>
+  </div>
+
+  <div class="real-app">📚 <b>第一次课的内容在这里：</b>派活三段式、Settings 地图、权限三档、五个作业练习模板，都做成了可随时打开练习的回顾页 → <a href="lesson1.html"><b>打开第一次课回顾页</b></a></div>
+
+  <h3>我的进度</h3>
+  <div class="progress-outer"><div class="progress-inner" id="homeProgress"></div></div>
+  <p class="muted" id="homeProgressTxt">已完成 0 / 5 个模块</p>
+
+  <div id="modList">
+    <div class="mod-row"><div class="num">1</div><div class="txt"><b>记忆管理</b><span class="mod-badge badge-todo" data-badge="m1">未完成</span><div>自述 → 纠错 → 补长期偏好，做一轮记忆体检</div></div><a class="go" href="#m1">开始练</a></div>
+    <div class="mod-row"><div class="num">2</div><div class="txt"><b>Settings 权限深挖</b><span class="mod-badge badge-wip" data-badge="m2">打磨中</span><div>权限树、背景同步、旧放行撤销、Browser 五件套、审批卡实操</div></div><a class="go" href="#m2">先看看</a></div>
+    <div class="mod-row"><div class="num">3</div><div class="txt"><b>多步任务链</b><span class="mod-badge badge-wip" data-badge="m3">打磨中</span><div>读邮件 → 提取日期 → 建日历 → 设提醒 → 汇报，步进走完</div></div><a class="go" href="#m3">先看看</a></div>
+    <div class="mod-row"><div class="num">4</div><div class="txt"><b>自动化诊所</b><span class="mod-badge badge-wip" data-badge="m4">打磨中</span><div>把一件每周重复事，填空拼成一条合格的定时任务</div></div><a class="go" href="#m4">先看看</a></div>
+    <div class="mod-row"><div class="num">5</div><div class="txt"><b>作业 2.0 与答疑</b><span class="mod-badge badge-wip" data-badge="m5">打磨中</span><div>必做权限审计 + 五选二，进度可勾选保存；常见问题解答</div></div><a class="go" href="#m5">先看看</a></div>
+  </div>
+</section>
+
+<!-- ================= 模块一：记忆管理 ================= -->
+<section id="m1" class="card">
+  <h2>① 记忆管理<span class="mod-badge badge-todo" data-badge="m1">未完成</span></h2>
+  <p>记忆不是玄学：它记了什么，你随时能让它<b>列出来</b>，逐条<b>改</b>、逐条<b>删</b>。先在下面这个模拟清单里练一遍手感。</p>
+
+  <div class="steps">
+    <div class="step"><b>第一步 · 自述</b>让它把记住的事全列出来——先看见，才谈得上管理。</div>
+    <div class="step"><b>第二步 · 纠错</b>记错的当场改；过时的当场删。让它改，它就真改；让它忘，它就真忘。</div>
+    <div class="step"><b>第三步 · 补偏好</b>把回答风格、验收习惯、固定规矩教给它，一次设置，长期生效。</div>
+  </div>
+
+  <div class="task-box">🎯 <b>本节任务：</b>下面这份模拟记忆里，<b>有一条记错了、有一条已经过时</b>。找出来：错的那条点「改一改」更正它，过时的那条点「忘掉」删了它；然后再补上<b>至少一条长期偏好</b>。三件都做完，本模块就算过关。</div>
+
+  <h3>模拟清单：Muse 记住的关于我的事</h3>
+  <div id="memList"></div>
+
+  <h3>补一条长期偏好（点一下就教给它）</h3>
+  <div class="chip-row" id="prefChips">
+    <button class="chip" data-pref="回答要简短，先给结论">＋ 回答风格：简短，先给结论</button>
+    <button class="chip" data-pref="给数字和日期时必须给来源">＋ 验收习惯：数字和日期要给来源</button>
+    <button class="chip" data-pref="买东西下单前必须先问我">＋ 固定规矩：下单前先问我</button>
+  </div>
+  <div class="add-row">
+    <input type="text" id="customPref" placeholder="或自己写一条偏好（别写真实敏感信息）" maxlength="60">
+    <button class="btn" id="addPrefBtn">教给它</button>
+  </div>
+
+  <div class="log" id="memLog"><div><span class="who">Muse（模拟）：</span>你好，这是我记住的关于你的事，一共 <span id="logCount">4</span> 条。你可以逐条检查。</div></div>
+
+  <div class="done-banner" id="m1Done">✅ 记忆体检完成：改对了一条、删掉了一条过时的、还补上了长期偏好。这就是"管记忆"的完整一轮——看见、自述、纠错、删除、补充。</div>
+
+  <div class="btn-row">
+    <button class="btn ghost" id="memReset">↺ 重置本练习</button>
+  </div>
+
+  <div class="real-app">
+    <b>📱 回真 App 跟做：</b>打开你手机上的 Muse，直接对它说<b>"把你记住的关于我的事列出来"</b>，逐条核对；错的就说"我儿子是八年级，不是七年级，改过来"，不要的就说"把那条忘掉"。
+    另外：以前在别的 AI 那里攒下的偏好不用重教——<b>Settings → Data controls → Import memory</b> 可以把旧 AI 的记忆导进来。
+  </div>
+</section>
+
+<!-- ================= 模块二：权限深挖（打磨中） ================= -->
+<section id="m2" class="card">
+  <h2>② Settings 权限深挖<span class="mod-badge badge-wip">打磨中</span></h2>
+  <p>本课的重点：把第一次课讲的"红线意识"，变成一个一个<b>能拨的开关</b>。这一模块正在细细打磨，将包含：</p>
+  <ul class="tight soon">
+    <li>模拟权限树：每个已连接账号的读 / 写动作，逐项练 Allow / Ask / Deny，拨错立刻弹风险说明</li>
+    <li>Background sync 开关演示：开和关，分别会发生什么</li>
+    <li>旧放行记录（Recipient permissions）撤销练习</li>
+    <li>全局默认 vs 单项覆盖：最小够用原则的对比演示</li>
+    <li>Browser 五件套与 Secure credentials：新手推荐配置对照</li>
+    <li>审批卡实操：6 个真实场景，批准还是拒绝，当场反馈</li>
+  </ul>
+  <p class="muted">先记住这一句：<b>全局定调子，单项开小灶，旧账随时清。</b></p>
+</section>
+
+<!-- ================= 模块三：多步任务链（打磨中） ================= -->
+<section id="m3" class="card">
+  <h2>③ 多步任务链<span class="mod-badge badge-wip">打磨中</span></h2>
+  <p>聊天 AI 只能做一步，这个助手能把一件事<b>串成链</b>。这一模块将做成步进演示：</p>
+  <ul class="tight soon">
+    <li>读邮件 → 提取事项和截止日期 → 建日历 → 提前一天提醒 → 汇总汇报，一步步点着走完</li>
+    <li>每一步标注"验收点"在哪里看：日历里能看到、Upcoming 里能看到</li>
+    <li>出错先查 Activity：哪一步做的、什么时候做的，全有记录</li>
+  </ul>
+  <p class="muted">派多步任务的诀窍：<b>把验收点写进指令</b>——"建完日历把事件标题报给我核对"。</p>
+</section>
+
+<!-- ================= 模块四：自动化诊所（打磨中） ================= -->
+<section id="m4" class="card">
+  <h2>④ 自动化诊所<span class="mod-badge badge-wip">打磨中</span></h2>
+  <p>把你每周都要重复做的一件事，改造成一个定时任务。这一模块将做成填空生成器：</p>
+  <ul class="tight soon">
+    <li>照着模板填空：每＿＿，把＿＿做一遍，结果按＿＿发我；没有变化就不用发；涉及＿＿先问我</li>
+    <li>一键生成可复制的任务措辞，拿回真 App 就能用</li>
+    <li>互审清单：权限有没有放大、没变化是否静默、Upcoming 里能不能找到并关掉它</li>
+  </ul>
+</section>
+
+<!-- ================= 模块五：作业与答疑（打磨中） ================= -->
+<section id="m5" class="card">
+  <h2>⑤ 作业 2.0 与答疑<span class="mod-badge badge-wip">打磨中</span></h2>
+  <p>课后作业会原样搬到这里：<b>必做一项（权限审计）＋ 五选二</b>，每一项都能勾选，进度存在你的手机浏览器里，一周内慢慢完成。</p>
+  <ul class="tight soon">
+    <li>必做 · 权限审计：逐个账号过权限树，发送类 = Ask 或 Deny，审计前后各截一张图</li>
+    <li>五选二：买菜比价官 2.0 / 邮件秘书 2.0 / 英语跟读教练 2.0 / 家庭指挥中心 / 记忆大扫除</li>
+    <li>答疑 FAQ：记错了怎么办、定时任务半夜吵人怎么办、两个邮箱能分开吗、做的事怎么验</li>
+  </ul>
+</section>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p class="redline">红线不变：带 SIN、银行卡号、密码的文件，永远不上传；任何截图发群之前，账号邮箱先打码。</p>
+    <p>本页所有界面均为教学模拟，与真 App 可能有出入，请以你手机上的实际界面为准。本页不收集、不上传任何数据；你的练习进度只保存在本机浏览器里。</p>
+    <p><a href="index.html">← 回课程首页</a> · <a href="lesson1.html">第一次课回顾页</a></p>
+    <p>Muse 实操实验室 · Muse 使用培训第二次课配套页</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============ 进度存储（只存本机浏览器） ============ */
+  var PKEY = "museLab.v1.progress";
+  var progress = {};
+  try { progress = JSON.parse(localStorage.getItem(PKEY) || "{}") || {}; } catch(e){ progress = {}; }
+  function saveProgress(){ try { localStorage.setItem(PKEY, JSON.stringify(progress)); } catch(e){} }
+
+  var MODULES = ["m1","m2","m3","m4","m5"];
+  function renderHome(){
+    var done = MODULES.filter(function(k){ return progress[k]; }).length;
+    var bar = document.getElementById("homeProgress");
+    var txt = document.getElementById("homeProgressTxt");
+    if (bar) bar.style.width = (done / MODULES.length * 100) + "%";
+    if (txt) txt.textContent = "已完成 " + done + " / " + MODULES.length + " 个模块";
+    MODULES.forEach(function(k){
+      document.querySelectorAll('[data-badge="' + k + '"]').forEach(function(el){
+        if (progress[k]) { el.textContent = "已完成 ✅"; el.className = "mod-badge badge-done"; }
+      });
+    });
+  }
+
+  /* ============ 模块一：记忆管理 ============ */
+  var INITIAL = [
+    { id:"e1", tag:"家庭", text:"儿子在读七年级", kind:"wrong" },
+    { id:"e2", tag:"住址", text:"家住多伦多市中心的一间旧公寓（去年已经搬走了）", kind:"stale" },
+    { id:"e3", tag:"饮食偏好", text:"喝咖啡不加糖", kind:"ok" },
+    { id:"e4", tag:"日常", text:"每周六上午去社区中心打羽毛球", kind:"ok" }
+  ];
+  var entries = [];
+  var state = { corrected:false, deletedStale:false, added:0 };
+  var listEl = document.getElementById("memList");
+  var logEl = document.getElementById("memLog");
+
+  function say(text){
+    var d = document.createElement("div");
+    var w = document.createElement("span"); w.className = "who"; w.textContent = "Muse（模拟）：";
+    d.appendChild(w); d.appendChild(document.createTextNode(text));
+    logEl.appendChild(d);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+  function updateCount(){
+    var c = document.getElementById("logCount");
+    if (c) c.textContent = entries.length;
+  }
+
+  function renderMem(){
+    listEl.innerHTML = "";
+    entries.forEach(function(en){
+      var box = document.createElement("div"); box.className = "mem-item"; box.id = "mem-" + en.id;
+      var tag = document.createElement("span"); tag.className = "tag"; tag.textContent = en.tag;
+      var txt = document.createElement("span"); txt.className = "txt"; txt.textContent = en.text;
+      box.appendChild(tag); box.appendChild(txt);
+
+      var ops = document.createElement("div"); ops.className = "ops";
+      var bEdit = document.createElement("button"); bEdit.className = "btn small ghost"; bEdit.textContent = "✏️ 改一改";
+      var bDel = document.createElement("button"); bDel.className = "btn small danger"; bDel.textContent = "🗑 忘掉";
+      bEdit.addEventListener("click", function(){ box.classList.add("editing"); var inp = box.querySelector("input"); if (inp){ inp.focus(); inp.select(); } });
+      bDel.addEventListener("click", function(){ delEntry(en.id); });
+      ops.appendChild(bEdit); ops.appendChild(bDel); box.appendChild(ops);
+
+      var er = document.createElement("div"); er.className = "edit-row";
+      var inp = document.createElement("input"); inp.type = "text"; inp.value = en.text; inp.maxLength = 60;
+      var bSave = document.createElement("button"); bSave.className = "btn small"; bSave.textContent = "保存";
+      bSave.addEventListener("click", function(){ saveEntry(en.id, inp.value); });
+      inp.addEventListener("keydown", function(ev){ if (ev.key === "Enter") saveEntry(en.id, inp.value); });
+      er.appendChild(inp); er.appendChild(bSave); box.appendChild(er);
+
+      listEl.appendChild(box);
+    });
+    updateCount();
+  }
+
+  function saveEntry(id, val){
+    val = (val || "").trim();
+    if (!val) { say("内容不能为空哦，写一点再保存。"); return; }
+    for (var i = 0; i < entries.length; i++){
+      if (entries[i].id === id){
+        var old = entries[i].text;
+        entries[i].text = val;
+        if (entries[i].kind === "wrong" && val.indexOf("七年级") === -1){
+          state.corrected = true;
+          say("好的，已更正：「" + old + "」→「" + val + "」。下次再提起，我会按新的说。");
+        } else {
+          say("好的，已更新这条记忆：「" + val + "」。");
+        }
+        break;
+      }
+    }
+    renderMem(); checkDone();
+  }
+
+  function delEntry(id){
+    var removed = null;
+    entries = entries.filter(function(en){ if (en.id === id){ removed = en; return false; } return true; });
+    if (removed){
+      if (removed.kind === "stale"){ state.deletedStale = true; }
+      say("已忘掉这条：「" + removed.text + "」。以后不会再提起。");
+      if (removed.kind === "ok"){ say("小提示：这条其实没记错——不过你的记忆你做主，删了也完全可以。"); }
+    }
+    renderMem(); checkDone();
+  }
+
+  function addEntry(text, tag){
+    entries.push({ id:"x" + Date.now() + Math.floor(Math.random()*999), tag:tag || "长期偏好", text:text, kind:"ok" });
+    state.added++;
+    say("记住了：「" + text + "」。以后每次对话我都会照这条来。");
+    renderMem(); checkDone();
+  }
+
+  function checkDone(){
+    if (state.corrected && state.deletedStale && state.added >= 1){
+      document.getElementById("m1Done").classList.add("show");
+      if (!progress.m1){ progress.m1 = true; saveProgress(); renderHome(); }
+    }
+  }
+
+  document.querySelectorAll("#prefChips .chip").forEach(function(ch){
+    ch.addEventListener("click", function(){
+      ch.classList.add("added");
+      addEntry(ch.getAttribute("data-pref"), "长期偏好");
+    });
+  });
+  document.getElementById("addPrefBtn").addEventListener("click", function(){
+    var inp = document.getElementById("customPref");
+    var v = inp.value.trim();
+    if (!v){ say("先写一条偏好，再点「教给它」。"); return; }
+    inp.value = "";
+    addEntry(v, "长期偏好");
+  });
+  document.getElementById("customPref").addEventListener("keydown", function(ev){
+    if (ev.key === "Enter") document.getElementById("addPrefBtn").click();
+  });
+
+  document.getElementById("memReset").addEventListener("click", function(){
+    entries = JSON.parse(JSON.stringify(INITIAL));
+    state = { corrected:false, deletedStale:false, added:0 };
+    progress.m1 = false; saveProgress();
+    document.getElementById("m1Done").classList.remove("show");
+    document.querySelectorAll("#prefChips .chip").forEach(function(ch){ ch.classList.remove("added"); });
+    document.querySelectorAll('[data-badge="m1"]').forEach(function(el){ el.textContent = "未完成"; el.className = "mod-badge badge-todo"; });
+    logEl.innerHTML = "";
+    var d = document.createElement("div");
+    var w = document.createElement("span"); w.className = "who"; w.textContent = "Muse（模拟）：";
+    d.appendChild(w); d.appendChild(document.createTextNode("练习已重置。这是我记住的关于你的事，一共 "));
+    var c = document.createElement("span"); c.id = "logCount"; c.textContent = "4";
+    d.appendChild(c); d.appendChild(document.createTextNode(" 条。你可以逐条检查。"));
+    logEl.appendChild(d);
+    renderMem(); renderHome();
+  });
+
+  /* ============ 初始化 ============ */
+  entries = JSON.parse(JSON.stringify(INITIAL));
+  renderMem();
+  renderHome();
+})();
+</script>
+</body>
+</html>
